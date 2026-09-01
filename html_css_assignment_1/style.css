@@ -1,0 +1,81 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* General */
+body {
+    background-color: #eef;
+}
+h1 {
+    font-family:'betania patmos', 'Arial Narrow', Arial, sans-serif;
+    font-style: italic;
+    font-size: 40px;
+}
+
+header {
+    background-color: #bbd;
+    border-bottom: #668;
+    border-width: 3px;
+    border-style: none none solid none;
+}
+
+/* Links */
+a {
+    color: #000;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+a:hover {
+    color: #66b;
+}
+
+/* General Classes */
+.flex_row {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Title */
+#title_container {
+    padding-top: 10px;
+    justify-content: center;
+}
+
+#title_trademark {
+    padding: 5px 10px;
+}
+
+/* Nav Bar */
+#nav_link_container {
+    padding: 10px 20px;
+}
+
+#nav_link_container a {
+    margin: 0px 10px;
+    font-size: 20px;
+}
+
+/* Products Section */
+#products_section {
+    margin: 50px;
+}
+
+.product_card {
+    margin: 10px;
+    border: 3px solid #668;
+    background-color: #fff;
+}
+
+.product_card p {
+    word-wrap: normal;
+    max-width: 280px;
+    font-size: 14px;
+}
+
+.product_card_description {
+    padding: 10px;
+    padding-top: 0px;
+}
