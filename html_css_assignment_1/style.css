@@ -8,6 +8,7 @@
 body {
     background-color: #eef;
 }
+
 h1 {
     font-family:'betania patmos', 'Arial Narrow', Arial, sans-serif;
     font-style: italic;
@@ -17,8 +18,20 @@ h1 {
 header {
     background-color: #bbd;
     border-bottom: #668;
-    border-width: 3px;
+    border-width: 2px;
     border-style: none none solid none;
+}
+
+section {
+    margin: 50px;
+}
+
+footer {
+    background-color: #445;
+}
+
+footer p {
+    color: #fff;
 }
 
 /* Links */
@@ -67,6 +80,11 @@ a:hover {
     margin: 10px;
     border: 3px solid #668;
     background-color: #fff;
+    transition: 0.2s;
+}
+
+.product_card:hover {
+    transform: scale(1.03);
 }
 
 .product_card p {
@@ -78,4 +96,24 @@ a:hover {
 .product_card_description {
     padding: 10px;
     padding-top: 0px;
+}
+
+/* About Us */
+#about_us_paragraph {
+    margin: 10px;
+    max-width: 700px;
+}
+
+#storage_image_container {
+    justify-content: end;
+    flex-grow: 1;
+}
+
+#storage_image {
+    width: 500px;
+    right: 0px;
+}
+
+#storage_image_description {
+    text-align: center;
 }
