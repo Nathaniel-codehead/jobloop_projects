@@ -1,6 +1,7 @@
 * {
     margin: 0px;
     padding: 0px;
+
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -17,6 +18,7 @@ h1 {
 
 header {
     background-color: #bbd;
+
     border-bottom: #668;
     border-width: 2px;
     border-style: none none solid none;
@@ -27,7 +29,9 @@ section {
 }
 
 footer {
+    padding: 20px;
     background-color: #445;
+    border-top: 2px solid #585878;
 }
 
 footer p {
@@ -35,13 +39,13 @@ footer p {
 }
 
 /* Links */
-a {
+a, button {
     color: #000;
     text-decoration: none;
     font-weight: 700;
 }
 
-a:hover {
+a:hover, button:hover {
     color: #66b;
 }
 
@@ -76,11 +80,22 @@ a:hover {
     margin: 50px;
 }
 
+#products_container {
+    min-width: max-content;
+}
+
 .product_card {
+    width: fit-content;
     margin: 10px;
+
     border: 3px solid #668;
+    border-radius: 6px;
+
     background-color: #fff;
+
     transition: 0.2s;
+
+    font-weight: normal;
 }
 
 .product_card:hover {
@@ -88,14 +103,33 @@ a:hover {
 }
 
 .product_card p {
-    word-wrap: normal;
     max-width: 280px;
+
+    word-wrap: normal;
     font-size: 14px;
 }
 
 .product_card_description {
     padding: 10px;
     padding-top: 0px;
+}
+
+/* Services */
+.service_card {
+    width: fit-content;
+    margin: 10px;
+    padding: 10px;
+
+    border: 3px solid #668;
+    border-radius: 6px;
+
+    background-color: #fff;
+
+    transition: 0.2s;
+}
+
+.service_card:hover {
+    transform: scale(1.03);
 }
 
 /* About Us */
@@ -116,4 +150,9 @@ a:hover {
 
 #storage_image_description {
     text-align: center;
+}
+
+.brand {
+    font-family:'betania patmos', 'Arial Narrow', Arial, sans-serif;
+    font-style: italic;
 }

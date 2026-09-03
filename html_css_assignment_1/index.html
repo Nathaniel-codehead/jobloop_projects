@@ -10,6 +10,8 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Betania+Patmos&display=swap" rel="stylesheet">
+        
+        <script defer src="script.js"></script>
     </head>
     <body>
         <header>
@@ -58,12 +60,35 @@
                 </div>
             </section>
 
-            <section id="">
+            <section id="services_section">
+                <h2>Services</h2>
 
+                <div class="flex_row">
+                    <button class="service_card" type="button" onclick="refund_button_clicked()">
+                        <p id="refund_button_text" >I Want a Refund</p>
+                    </button>
+
+                    <button class="service_card" type="button">
+                        <p>Shipping</p>
+                    </button>
+
+                    <button class="service_card" type="button">
+                        <p>Package Loss</p>
+                    </button>
+
+                    <button class="service_card" type="button">
+                        <p>Legal Information</p>
+                    </button>
+
+                    <button class="service_card" type="button">
+                        <p>Job Offers</p>
+                    </button>
+                </div>
             </section>
         </main>
         <footer>
-            <p>fisk</p>
+            <h2>Wanna Become a <span class="brand">SNIFF</span>™ Dealer?</h2>
+            <a>Sign Up Today!</a>
         </footer>
     </body>
 </html>
