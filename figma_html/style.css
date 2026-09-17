@@ -1,0 +1,93 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.flex_row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex_column {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+}
+
+header > div {
+    padding: 0px 100px;
+}
+
+.icon {
+    width: 3rem;
+    filter: invert(100%);
+}
+
+p {
+    font-size: 1rem;
+}
+
+#top_nav {
+    background-color: #015582;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    color: #FFF;
+}
+
+#top_nav img {
+    width: 2rem;
+}
+
+#top_nav * {
+    gap: 10px;
+}
+
+#title_section {
+    background-color: #F7F7F7;
+    padding: 10px 100px;
+}
+
+#title_section div img {
+    width: 1.5rem;
+}
+
+#search_section {
+    background-color: #0095D5;
+}
+
+#product_nav {
+    background-color: #F7F7F7;
+}
+
+#image_container {
+    margin: 0px 100px;
+}
+
+#image_container img {
+    width: 100%;
+}
+
+#net_on_net_logo {
+    height: 40px;
+}
+
+#title_nav_container {
+    gap: 20px;
+}
+
+#searchbox {
+    background-color: #F7F7F7;
+    width: 80%;
+}
+
+#searchbox img {
+    filter: invert(17%) sepia(51%) saturate(3988%) hue-rotate(184deg) brightness(97%) contrast(99%);
+}
