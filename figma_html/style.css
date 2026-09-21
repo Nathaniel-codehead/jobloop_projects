@@ -61,10 +61,23 @@ p {
 
 #search_section {
     background-color: #0095D5;
+    color: #FFF;
+    padding: 10px 100px;
+    justify-content: flex-start;
+    gap: 10px;
+}
+#search_section img {
+    filter: invert(100%);
+    width: 48px;
+}
+
+#search_section p {
+    font-size: 24px;
 }
 
 #product_nav {
     background-color: #F7F7F7;
+    padding: 10px 100px;
 }
 
 #image_container {
@@ -86,8 +99,22 @@ p {
 #searchbox {
     background-color: #F7F7F7;
     width: 80%;
+    height: 60px;
+    gap: 10px;
+    justify-content: flex-start;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 #searchbox img {
     filter: invert(17%) sepia(51%) saturate(3988%) hue-rotate(184deg) brightness(97%) contrast(99%);
+    width: 32px;
+}
+
+#searchbox_placeholder {
+    color: #a1a1a1;
+}
+
+.product_category_card img {
+    width: 48px;
 }
