@@ -1,0 +1,24 @@
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --jet_black: #2A2D34;
+    --mint_cream: #EAF2EF;
+    --oogabooga: var(--jet_black);
+}
+
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+} 
+
+body {
+    font-family: "Roboto Mono", Arial, Helvetica;
+}
+
+h1 {
+    font-family: "Saira", Cambria, Georgia;
+    font-weight: 400;
+    font-style: italic;
+}
