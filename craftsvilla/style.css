@@ -1,24 +1,113 @@
-/* Import Fonts */
+/* import fonts */
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
 
+/* fancy stuff */
 :root {
-    --jet_black: #2A2D34;
-    --mint_cream: #EAF2EF;
-    --oogabooga: var(--jet_black);
+    --black: #2A2D34;
+    --white: #EAF2EF;
+    --dark_red: #561D25;
+    --red: #DB504A;
+    --soft_red: #FE6F5E;
+    --yellow: #E3B505;
+    --soft_yellow: #FFDB58;
+    --pink: #C45AB3;
+    --dark_blue: #2F4858;
+
+    --background: var(--black);
+    --border: var(--dark_blue);
+    --main_text: var(--white);
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+/* reset */
 * {
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
-} 
+}
 
+/* generic classes */
+.flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.text_padding {
+    padding: 30px 8%;
+}
+
+/* general */
 body {
     font-family: "Roboto Mono", Arial, Helvetica;
+    color: var(--main_text);
+    background-color: var(--background);
 }
+
+/* header {
+    border-bottom: solid var(--border) 3px;
+} */
 
 h1 {
     font-family: "Saira", Cambria, Georgia;
     font-weight: 400;
     font-style: italic;
+    font-size: 48px;
+    color: var(--soft_red);
+}
+
+h1 span {
+    color: var(--soft_yellow);
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+p {
+    font-size: 1.5rem;
+}
+
+#title_container {
+    justify-content: center;
+}
+
+#hero_image {
+    background-image: url("images/people_arts_and_crafts.jpg");
+    background-position: bottom;
+    background-size: cover;
+    width: 100%;
+    height: 100lvh;
+}
+
+.location_card {
+    flex-grow: 1;
+    transition-duration: 1s;
+}
+
+.location_card:hover {
+    width: 100%;
+}
+
+.location_card img {
+    width: 100%;
+    object-fit: cover;
+}
+
+#location_card_1 {
+    background-color: var(--soft_red);
+}
+
+#location_card_2 {
+    background-color: var(--soft_yellow);
+}
+
+#location_card_3 {
+    background-color: var(--pink);
 }
