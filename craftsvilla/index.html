@@ -6,17 +6,38 @@
         <title>CRAFTSVILLA</title>
 
         <link rel="stylesheet" href="style.css">
+        <script defer src="script.js"></script>
     </head>
     <body>
-        <header>
-            <div id="title_container" class="flex">
-                <h1>CRAFTS<span>VILLA</span></h1>
+        <header id="header">
+            <div id="header_top_container" class="flex">
+                <div id="left_menu_container" class="menu_container">
+
+                </div>
+
+                <div id="title_container" class="flex center">
+                    <h1>CRAFTS<span>VILLA</span></h1>
+                </div>
+
+                <div id="right_menu_container" class="flex center menu_container">
+                    <button type="button" onclick="dark_mode_toggle()" class="flex center">
+                        <img id="darkmode_button_image" src="images/sun.svg" alt="the darkmode button">
+                    </button>
+                </div>
             </div>
+
+            <nav class="flex small_gap">
+                <a href="#locations">Book Your Appointment Now!</a>
+                <a href="feedback.html">Give Us Your Feedback!</a>
+                <a href="#about_us">About Us</a>
+            </nav>
         </header>
 
         <main>
-            <div id="hero_image">
-                <a href=""></a>
+            <div id="hero_image" class="flex column center">
+                <a href="#locations">
+                    <h4 id="hero_locations_link">Book Your Appointment Now!</h4>
+                </a>
             </div>
 
             <section id="about_us">
@@ -26,31 +47,91 @@
                 </div>
             </section>
 
-            <section>
+            <section id="locations">
                 <div class="text_padding">
                     <h2>Our Locations</h2>
                 </div>
                 <div id="location_card_container" class="flex">
-                    <div id="location_card_1" class="location_card">
+                    <a href="booking.html?location=oslo" id="location_card_1" class="location_card">
                         <img src="images/lod/medium/oslo_medium.jpg" alt="">
-                        <h3>Oslo</h3>
-                    </div>
+                        <div class="flex center">
+                            <h3>Oslo</h3>
+                        </div>
+                        <div class="text_padding">
+                            <p>Address: Oppfunnetgata 27</p>
+                            <p>Standard Cost: $299</p>
+                        </div>
+                        <div class="flex center">
+                            <h5>Upcoming Workshops</h5>
+                        </div>
+                        <div class="text_padding">
+                            <ul>
+                                <li>7 November 2026</li>
+                                <li>10 November 2026</li>
+                                <li>14 November 2026</li>
+                            </ul>
+                        </div>
+                    </a>
 
-                    <div id="location_card_2" class="location_card">
+                    <a href="booking.html?location=trondheim" id="location_card_2" class="location_card">
                         <img src="images/lod/medium/trondheim_medium.jpg" alt="">
-                        <h3>Trondheim</h3>
-                    </div>
+                        <div class="flex center">
+                            <h3>Trondheim</h3>
+                        </div>
+                        <div class="text_padding">
+                            <p>Address: Usynliggata 14</p>
+                            <p>Standard Cost: $249</p>
+                        </div>
+                        <div class="flex center">
+                            <h5>Upcoming Workshops</h5>
+                        </div>
+                        <div class="text_padding">
+                            <ul>
+                                <li>3 November 2026</li>
+                                <li>10 November 2026</li>
+                                <li>14 November 2026</li>
+                            </ul>
+                        </div>
+                    </a>
 
-                    <div id="location_card_3" class="location_card">
+                    <a href="booking.html?location=aalesund" id="location_card_3" class="location_card">
                         <img src="images/lod/medium/aalesund_medium.jpg" alt="">
-                        <h3>Ålesund</h3>
-                    </div>
+                        <div class="flex center">
+                            <h3>Ålesund</h3>
+                        </div>
+                        <div class="text_padding">
+                            <p>Address: Bullshitgata 19</p>
+                            <p>Standard Cost: $249</p>
+                        </div>
+                        <div class="flex center">
+                            <h5>Upcoming Workshops</h5>
+                        </div>
+                        <div class="text_padding">
+                            <ul>
+                                <li>10 November 2026</li>
+                                <li>24 November 2026</li>
+                            </ul>
+                        </div>
+                    </a>
                 </div>
             </section>
         </main>
 
         <footer>
-
+            <div class="flex center">
+                <a href="#header">Back to Top</a>
+            </div>
+            <div id="main_footer_link_container" class="flex">
+                <div class="flex center">
+                    <a href="#locations">Book Your Appointment Now!</a>
+                </div>
+                <div class="flex center">
+                    <a href="feedback.html">Give Us Your Feedback!</a>
+                </div>
+                <div class="flex center">
+                    <a href="#about_us">About Us</a>
+                </div>
+            </div>
         </footer>
     </body>
 </html>

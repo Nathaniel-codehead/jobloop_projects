@@ -39,8 +39,17 @@ html {
     flex-direction: column;
 }
 
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
 .text_padding {
     padding: 30px 8%;
+}
+
+.small_gap {
+    gap: 10px;
 }
 
 /* general */
@@ -48,17 +57,14 @@ body {
     font-family: "Roboto Mono", Arial, Helvetica;
     color: var(--main_text);
     background-color: var(--background);
+    font-size: 1.5rem;
 }
-
-/* header {
-    border-bottom: solid var(--border) 3px;
-} */
 
 h1 {
     font-family: "Saira", Cambria, Georgia;
     font-weight: 400;
     font-style: italic;
-    font-size: 48px;
+    font-size: 3rem;
     color: var(--soft_red);
 }
 
@@ -70,12 +76,72 @@ h2 {
     font-size: 2rem;
 }
 
-p {
+h3 {
+    font-size: 2rem;
+}
+
+h4 {
+    font-size: 2rem;
+    padding: 2px 10px;
+    background-color: var(--soft_red);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+h5 {
     font-size: 1.5rem;
 }
 
+a {
+    color: var(--main_text);
+    font-style: normal;
+    text-decoration: none;
+}
+
+button {
+    background-color: var(--soft_red);
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+ul {
+    padding: 0px 20px;
+}
+
+nav {
+    padding: 10px;
+}
+
+nav a, footer a {
+    background-color: var(--soft_red);
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px;
+    font-size: 1rem;
+    transition-duration: 0.5s;
+    color: var(--white);
+}
+
+nav a:hover, footer a:hover {
+    transform: scale(1.05);
+}
+
+footer {
+    margin-top: 50px;
+}
+
+#main_footer_link_container {
+    padding: 50px 0px;
+}
+
+#main_footer_link_container div {
+    width: 100px;
+    flex-grow: 1;
+}
+
 #title_container {
-    justify-content: center;
+    flex-grow: 1;
 }
 
 #hero_image {
@@ -84,20 +150,28 @@ p {
     background-size: cover;
     width: 100%;
     height: 100lvh;
+    color: var(--white);
 }
 
 .location_card {
-    flex-grow: 1;
-    transition-duration: 1s;
+    flex-shrink: 1;
+    transition-duration: 0.5s;
+    color: var(--black);
+    height: fit-content;
+    padding: 20px 0px;
 }
 
 .location_card:hover {
-    width: 100%;
+    flex-shrink: 0.9;
 }
 
 .location_card img {
     width: 100%;
     object-fit: cover;
+}
+
+#location_card_container {
+    min-height: 700px;
 }
 
 #location_card_1 {
@@ -110,4 +184,22 @@ p {
 
 #location_card_3 {
     background-color: var(--pink);
+}
+
+#hero_locations_link {
+    transition-duration: 0.5s;
+    color: var(--white);
+}
+
+#hero_locations_link:hover {
+    transform: scale(1.05);
+}
+
+.menu_container {
+    width: 100px;
+}
+
+#darkmode_button_image {
+    width: 2rem;
+    height: 2rem;
 }
