@@ -52,6 +52,24 @@ html {
     gap: 10px;
 }
 
+.medium_gap {
+    gap: 20px;
+}
+
+.link {
+    background-color: var(--soft_red);
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px;
+    font-size: 1rem;
+    transition-duration: 0.5s;
+    color: var(--white);
+}
+
+.link:hover {
+    transform: scale(1.05);
+}
+
 /* general */
 body {
     font-family: "Roboto Mono", Arial, Helvetica;
@@ -60,7 +78,7 @@ body {
     font-size: 1.5rem;
 }
 
-h1 {
+h1, h6 {
     font-family: "Saira", Cambria, Georgia;
     font-weight: 400;
     font-style: italic;
@@ -68,15 +86,11 @@ h1 {
     color: var(--soft_red);
 }
 
-h1 span {
+h1 span, h6 span {
     color: var(--soft_yellow);
 }
 
-h2 {
-    font-size: 2rem;
-}
-
-h3 {
+h2, h3 {
     font-size: 2rem;
 }
 
@@ -113,31 +127,25 @@ nav {
     padding: 10px;
 }
 
-nav a, footer a {
-    background-color: var(--soft_red);
-    border-radius: 5px;
-    overflow: hidden;
-    padding: 5px;
-    font-size: 1rem;
-    transition-duration: 0.5s;
-    color: var(--white);
-}
-
-nav a:hover, footer a:hover {
-    transform: scale(1.05);
-}
-
 footer {
-    margin-top: 50px;
+    margin-top: 30px;
+    padding: 20px;
+    background-color: var(--dark_blue);
 }
 
 #main_footer_link_container {
-    padding: 50px 0px;
+    width: 100%;
 }
 
 #main_footer_link_container div {
-    width: 100px;
+    width: 100%;
     flex-grow: 1;
+    flex-shrink: 1;
+}
+
+#booking_location {
+    color: var(--main_text);
+    font-family: "Roboto Mono", Arial, Helvetica;
 }
 
 #title_container {
@@ -161,12 +169,22 @@ footer {
     padding: 20px 0px;
 }
 
+.location_card div.text_padding {
+    padding: 30px 4%;
+}
+
 .location_card:hover {
     flex-shrink: 0.9;
 }
 
 .location_card img {
     width: 100%;
+    object-fit: cover;
+}
+
+#booking_location_image {
+    width: 100%;
+    max-height: 200px;
     object-fit: cover;
 }
 
@@ -202,4 +220,52 @@ footer {
 #darkmode_button_image {
     width: 2rem;
     height: 2rem;
+}
+
+input[type="radio"] {
+    visibility: hidden;
+    display: none;
+}
+
+#workshop_type_container {
+    justify-content: space-between;
+    padding: 20px calc(10% - 50px);
+}
+
+.workshop_type_label {
+    background-color: var(--soft_yellow);
+    border: var(--soft_yellow) solid 5px;
+    border-radius: 20px;
+    padding: 10px;
+    transition-duration: 0.5s;
+    color: var(--black);
+    min-height: 100%;
+}
+
+.workshop_type_label:has(input[type="radio"]:checked) {
+    border: var(--soft_red) solid 5px;
+    transform: scale(1.1);
+}
+
+.workshop_type_label p {
+    max-width: 30vw;
+}
+
+#date_container {
+    padding: 20px calc(10% - 50px);
+}
+
+.date_label {
+    background-color: var(--soft_red);
+    border: var(--soft_red) solid 5px;
+    border-radius: 20px;
+    padding: 10px;
+    transition-duration: 0.5s;
+    color: var(--white);
+    min-height: 100%;
+}
+
+.date_label:has(input[type="radio"]:checked) {
+    border: var(--soft_yellow) solid 5px;
+    transform: scale(1.1);
 }

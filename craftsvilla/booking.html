@@ -3,9 +3,157 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>CRAFTSVILLA</title>
+
+        <link rel="stylesheet" href="style.css">
+
+        <script defer src="script.js"></script>
+        <script defer>
+            location_display_names = {"oslo": "Oslo", "trondheim": "Trondheim", "aalesund": "Ålesund"};
+
+            // ↓very advanced database↓
+            available_dates = {
+                "oslo": ["7. November 2026", "10. November 2026", "14. November 2026"],
+                "trondheim": ["3. November 2026", "10. November 2026", "14. November 2026"],
+                "aalesund": ["10. November 2026", "24. November 2026"]
+            };
+
+            window.onload = () => {
+                let location = get_url_parameter("location");
+
+                if (!(location in location_display_names)) {
+                    window.location.replace("index.html#locations");
+                }
+
+                document.getElementById("booking_location").innerHTML = location_display_names[location];
+                
+                let booking_location_image = document.getElementById("booking_location_image");
+                booking_location_image.setAttribute("src", `images/lod/large/${location}_big.jpg`);
+                booking_location_image.setAttribute("alt", location_display_names[location]);
+
+                if (available_dates[location].length == 0) {
+                    document.getElementById("date_display_1").innerHTML = "No Dates Available";
+                } else {
+                    for (let date_index = 0; date_index < available_dates[location].length; date_index++) {
+                        document.getElementById(`date_display_${date_index + 1}`).innerHTML = available_dates[location][date_index];
+                    }
+                }
+
+                for (let date_index = 0; date_index < 3; date_index++) {
+                    if (document.getElementById(`date_display_${date_index + 1}`).innerHTML == "") {
+                        document.getElementById(`date_display_${date_index + 1}`).parentNode.remove();
+                    }
+                }
+            };
+        </script>
     </head>
     <body>
-        
+        <header id="header">
+            <div id="header_top_container" class="flex">
+                <div id="left_menu_container" class="menu_container">
+
+                </div>
+
+                <div id="title_container" class="flex center">
+                    <a href="index.html">
+                        <h1>CRAFTS<span>VILLA</span></h1>
+                    </a>
+                </div>
+
+                <div id="right_menu_container" class="flex center menu_container">
+                    <button type="button" onclick="dark_mode_toggle()" class="flex center">
+                        <img id="darkmode_button_image" src="images/sun.svg" alt="the darkmode button">
+                    </button>
+                </div>
+            </div>
+
+            <nav class="flex small_gap">
+                <a class="link" href="index.html#locations">Book Your Appointment Now!</a>
+                <a class="link" href="feedback.html">Give Us Your Feedback!</a>
+                <a class="link" href="index.html#about_us">About Us</a>
+            </nav>
+        </header>
+
+        <main>
+            <section id="location_confirmation_section">
+                <img id="booking_location_image" src="" alt="">
+
+                <div class="flex column center small_gap text_padding">
+                    <h6 id="booking_location"></h6>
+                    <a class="link" href="index.html#locations">Pick a Different Location</a>
+                </div>
+            </section>
+
+            <section id="main_booking_section">
+                <form action="booking_submitted()">
+                    <div id="workshop_type_container" class="flex medium_gap">
+                        <label class="workshop_type_label">
+                            <input type="radio" name="workshop_type_selector" value="mosaic" required/>
+                            <div class="flex center">
+                                <h2>Mosaic</h2>
+                            </div>
+                            <p>In this set you get a frame, an A4-sized backplate and colored stones shaped to fit together, aswell as some adhesive to keep it solid!</p>
+                        </label>
+
+                        <label class="workshop_type_label">
+                            <input type="radio" name="workshop_type_selector" value="watercolor" required/>
+                            <div class="flex center">
+                                <h2>Water Color</h2>
+                            </div>
+                            <p>In this set you get a frame, paper, watercolor in all the colors you need, and the tools to make your masterpiece! you can choose from templates, or make your own design!</p>
+                        </label>
+
+                        <label class="workshop_type_label">
+                            <input type="radio" name="workshop_type_selector" value="acrylic" required/>
+                            <div class="flex center">
+                                <h2>Acrylic</h2>
+                            </div>
+                            <p>In this set you get a frame, paper, acrylic paint in all the colors you need, and the tools to make your masterpiece! you can choose from templates, or make your own design!</p>
+                        </label>
+                    </div>
+
+                    <div id="date_container" class="flex medium_gap">
+                        <label id="date_label_1" class="date_label flex center">
+                            <input type="radio" name="date_selector" value="1" required/>
+                            <p id="date_display_1"></p>
+                        </label>
+
+                        <label id="date_label_2" class="date_label flex center">
+                            <input type="radio" name="date_selector" value="2" required/>
+                            <p id="date_display_2"></p>
+                        </label>
+
+                        <label id="date_label_3" class="date_label flex center">
+                            <input type="radio" name="date_selector" value="3" required/>
+                            <p id="date_display_3"></p>
+                        </label>
+                    </div>
+                </form>
+            </section>
+        </main>
+
+        <footer class="flex column center medium_gap">
+            <div class="flex center">
+                <a class="link" href="#header">Back to Top</a>
+            </div>
+
+            <a href="index.html">
+                <h6>CRAFTS<span>VILLA</span></h6>
+            </a>
+
+            <div id="main_footer_link_container" class="flex">
+                <div class="footer_link flex center">
+                    <a class="link" href="index.html#locations">Book Your Appointment Now!</a>
+                </div>
+
+                <div class="footer_link flex center">
+                    <a class="link" href="feedback.html">Give Us Your Feedback!</a>
+                </div>
+
+                <div class="footer_link flex center">
+                    <a class="link" href="index.html#about_us">About Us</a>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>

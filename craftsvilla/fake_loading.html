@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CRAFTSVILLA</title>
+
+        <link rel="stylesheet" href="style.css">
+        <style>
+            main {
+                height: 100dvh;
+            }
+
+            #spinny_loading_bar {
+                width: 10%;
+            }
+        </style>
+
+        <script defer src="script.js"></script>
+        <script defer>
+            function redirect() {
+                window.location.replace("confirmation.html")
+            }
+
+            window.onload = () => {
+                document.getElementById("loading_context").innerHTML = get_url_parameter("message").replace(/%20/g, " ");
+                setTimeout(redirect, 2000)
+            };
+        </script>
+    </head>
+    <body>
+        <main class="flex column center small_gap">
+            <h1>CRAFTS<span>VILLA</span></h1>
+            <img id="spinny_loading_bar" src="images/loading.svg" alt="a pinny loading bar">
+            <p id="loading_context"></p>
+        </main>
+    </body>
+</html>
