@@ -36,6 +36,7 @@ function change_background_color() {
 
     document.documentElement.style.setProperty("--background", `color-mix(in srgb, var(--black) ${darkmode["black_percentage"]}%, var(--white) ${100 - darkmode["black_percentage"]}%)`);
     document.documentElement.style.setProperty("--main_text", `color-mix(in srgb, var(--black) ${100 - darkmode["black_percentage"]}%, var(--white) ${darkmode["black_percentage"]}%)`);
+    document.documentElement.style.setProperty("--dark_background", `color-mix(in srgb, var(--black) ${darkmode["black_percentage"]}%, var(--dark_blue) ${100 - darkmode["black_percentage"]}%)`);
 }
 
 function get_url_parameter(target_parameter_name) {
@@ -76,5 +77,5 @@ window.addEventListener('resize', () => {
 })
 
 function booking_submitted() {
-    window.location.redirect("fake_loading.html?message=Confirming Your Purchase");
+    window.location.replace("fake_loading.html?message=Confirming Your Purchase...&message_2=Stealing Your Money...");
 }

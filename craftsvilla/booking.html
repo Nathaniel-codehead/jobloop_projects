@@ -85,12 +85,13 @@
             </section>
 
             <section id="main_booking_section">
-                <form action="booking_submitted()">
+                <form class="flex column medium_gap">
+                    <h2>Workshops</h2>
                     <div id="workshop_type_container" class="flex medium_gap">
                         <label class="workshop_type_label">
                             <input type="radio" name="workshop_type_selector" value="mosaic" required/>
                             <div class="flex center">
-                                <h2>Mosaic</h2>
+                                <h3>Mosaic</h3>
                             </div>
                             <p>In this set you get a frame, an A4-sized backplate and colored stones shaped to fit together, aswell as some adhesive to keep it solid!</p>
                         </label>
@@ -98,7 +99,7 @@
                         <label class="workshop_type_label">
                             <input type="radio" name="workshop_type_selector" value="watercolor" required/>
                             <div class="flex center">
-                                <h2>Water Color</h2>
+                                <h3>Water Color</h3>
                             </div>
                             <p>In this set you get a frame, paper, watercolor in all the colors you need, and the tools to make your masterpiece! you can choose from templates, or make your own design!</p>
                         </label>
@@ -106,12 +107,13 @@
                         <label class="workshop_type_label">
                             <input type="radio" name="workshop_type_selector" value="acrylic" required/>
                             <div class="flex center">
-                                <h2>Acrylic</h2>
+                                <h3>Acrylic</h3>
                             </div>
                             <p>In this set you get a frame, paper, acrylic paint in all the colors you need, and the tools to make your masterpiece! you can choose from templates, or make your own design!</p>
                         </label>
                     </div>
 
+                    <h2>Available Dates</h2>
                     <div id="date_container" class="flex medium_gap">
                         <label id="date_label_1" class="date_label flex center">
                             <input type="radio" name="date_selector" value="1" required/>
@@ -128,6 +130,19 @@
                             <p id="date_display_3"></p>
                         </label>
                     </div>
+
+                    <h2>Contact Details</h2>
+                    <label class="flex column small_gap">
+                        <p>Name</p>
+                        <input type="text" placeholder="John Doe" required>
+                    </label>
+
+                    <label class="flex column small_gap">
+                        <p>Email</p>
+                        <input type="text" placeholder="johndoe@example.com" required>
+                    </label>
+
+                    <input type="button" value="Confirm Booking" onclick="booking_submitted()">
                 </form>
             </section>
         </main>

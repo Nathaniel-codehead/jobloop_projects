@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CRAFTSVILLA</title>
+
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <header id="header">
+            <div id="header_top_container" class="flex">
+                <div id="left_menu_container" class="menu_container">
+
+                </div>
+
+                <div id="title_container" class="flex center">
+                    <a href="index.html">
+                        <h1>CRAFTS<span>VILLA</span></h1>
+                    </a>
+                </div>
+
+                <div id="right_menu_container" class="flex center menu_container">
+                    <button type="button" onclick="dark_mode_toggle()" class="flex center">
+                        <img id="darkmode_button_image" src="images/sun.svg" alt="the darkmode button">
+                    </button>
+                </div>
+            </div>
+
+            <nav class="flex small_gap">
+                <a class="link" href="index.html#locations">Book Your Appointment Now!</a>
+                <a class="link" href="feedback.html">Give Us Your Feedback!</a>
+                <a class="link" href="index.html#about_us">About Us</a>
+            </nav>
+        </header>
+
+        <main>
+            <section id="main_feedback_section">
+                <form class="flex column large_gap">
+                    <h2>We Welcome Your Feedback!</h2>
+                    <label class="flex column small_gap">
+                        <textarea name="message" placeholder="I would like..." maxlength="4096" wrap="soft" required></textarea>
+                    </label>
+
+                    <h2>Contact Details</h2>
+                    <label class="flex column small_gap">
+                        <p>Name</p>
+                        <input type="text" placeholder="John Doe" required>
+                    </label>
+
+                    <label class="flex column small_gap">
+                        <p>Email</p>
+                        <input type="text" placeholder="johndoe@example.com" required>
+                    </label>
+
+                    <input type="button" value="Confirm Feedback" onclick="booking_submitted()">
+                </form>
+            </section>
+        </main>
+
+        <footer class="flex column center medium_gap">
+            <div class="flex center">
+                <a class="link" href="#header">Back to Top</a>
+            </div>
+
+            <a href="index.html">
+                <h6>CRAFTS<span>VILLA</span></h6>
+            </a>
+
+            <div id="main_footer_link_container" class="flex">
+                <div class="footer_link flex center">
+                    <a class="link" href="index.html#locations">Book Your Appointment Now!</a>
+                </div>
+
+                <div class="footer_link flex center">
+                    <a class="link" href="feedback.html">Give Us Your Feedback!</a>
+                </div>
+
+                <div class="footer_link flex center">
+                    <a class="link" href="index.html#about_us">About Us</a>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html

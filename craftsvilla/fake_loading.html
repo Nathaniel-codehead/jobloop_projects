@@ -22,9 +22,18 @@
                 window.location.replace("confirmation.html")
             }
 
+            function show_second_message() {
+                document.getElementById("loading_context").innerHTML = get_url_parameter("message_2").replace(/%20/g, " ");
+            }
+
             window.onload = () => {
                 document.getElementById("loading_context").innerHTML = get_url_parameter("message").replace(/%20/g, " ");
                 setTimeout(redirect, 2000)
+                
+                let second_message = get_url_parameter("message_2");
+                if (second_message) {
+                    setTimeout(show_second_message, 1000)
+                }
             };
         </script>
     </head>

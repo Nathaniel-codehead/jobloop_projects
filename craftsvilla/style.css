@@ -14,6 +14,7 @@
     --dark_blue: #2F4858;
 
     --background: var(--black);
+    --dark_background: var(--black);
     --border: var(--dark_blue);
     --main_text: var(--white);
 }
@@ -56,6 +57,10 @@ html {
     gap: 20px;
 }
 
+.large_gap {
+    gap: 50px;
+}
+
 .link {
     background-color: var(--soft_red);
     border-radius: 5px;
@@ -76,6 +81,10 @@ body {
     color: var(--main_text);
     background-color: var(--background);
     font-size: 1.5rem;
+}
+
+header {
+    background-color: var(--dark_background);
 }
 
 h1, h6 {
@@ -131,6 +140,10 @@ footer {
     margin-top: 30px;
     padding: 20px;
     background-color: var(--dark_blue);
+}
+
+form {
+    padding: 0px calc(10% - 50px);
 }
 
 #main_footer_link_container {
@@ -217,6 +230,14 @@ footer {
     width: 100px;
 }
 
+.menu_container button {
+    transition-duration: 0.5s;
+}
+
+.menu_container button:hover {
+    transform: scale(1.05);
+}
+
 #darkmode_button_image {
     width: 2rem;
     height: 2rem;
@@ -229,7 +250,7 @@ input[type="radio"] {
 
 #workshop_type_container {
     justify-content: space-between;
-    padding: 20px calc(10% - 50px);
+    padding: 20px 0px;
 }
 
 .workshop_type_label {
@@ -242,6 +263,10 @@ input[type="radio"] {
     min-height: 100%;
 }
 
+.workshop_type_label:hover {
+    transform: scale(1.05);
+}
+
 .workshop_type_label:has(input[type="radio"]:checked) {
     border: var(--soft_red) solid 5px;
     transform: scale(1.1);
@@ -252,7 +277,7 @@ input[type="radio"] {
 }
 
 #date_container {
-    padding: 20px calc(10% - 50px);
+    padding: 20px 0px;
 }
 
 .date_label {
@@ -265,7 +290,57 @@ input[type="radio"] {
     min-height: 100%;
 }
 
+.date_label:hover {
+    transform: scale(1.05);
+}
+
 .date_label:has(input[type="radio"]:checked) {
     border: var(--soft_yellow) solid 5px;
     transform: scale(1.1);
+}
+
+input[type="button"] {
+    width: 100%;
+    font-size: 2.5rem;
+    font-family: "Roboto Mono", Arial, Helvetica;
+    background-color: var(--soft_red);
+    color: var(--white);
+    padding: 10px;
+    border-radius: 20px;
+    border-style: none;
+    transition-duration: 0.5s;
+    margin-top: 50px;
+}
+
+input[type="button"]:hover {
+    transform: scale(1.05);
+}
+
+input[type="text"], textarea {
+    font-size: 1.5rem;
+    font-family: "Roboto Mono", Arial, Helvetica;
+    background-color: var(--white);
+    color: var(--black);
+    padding: 10px;
+    border-radius: 10px;
+    border: var(--main_text) solid 3px;
+    width: fit-content;
+}
+
+#main_feedback_section {
+    padding: 30px 0px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 200px;
+    height: fit-content;
+    resize: none;
+    overflow: hidden;
+    font-size: 1rem;
+    field-sizing: content;
+}
+
+#confirmation_main {
+    height: 80vh;
 }
