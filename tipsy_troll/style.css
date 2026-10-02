@@ -1,0 +1,37 @@
+/* reset */
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+/* generic classes */
+.flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.text_padding {
+    padding: 30px 8%;
+}
+
+.small_gap {
+    gap: 10px;
+}
+
+.medium_gap {
+    gap: 20px;
+}
+
+.large_gap {
+    gap: 50px;
+}
