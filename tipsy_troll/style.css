@@ -1,9 +1,35 @@
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+
+
+/* fancy stuff */
+:root {
+    --black: #2A2D34;
+    --white: #EAF2EF;
+
+    --background: var(--black);
+    --main_text: var(--white);
+    --secondary_text: var(--black);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+
 /* reset */
 * {
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
+    color: var(--main_text);
+    text-decoration: none;
+    font-family: "Roboto Mono";
 }
+
+
 
 /* generic classes */
 .flex {
@@ -35,3 +61,58 @@
 .large_gap {
     gap: 50px;
 }
+
+
+
+/* generic */
+body {
+    background-color: var(--background);
+    font-size: 1.5rem;
+}
+
+h1 {
+    font-family: "Cinzel";
+    font-size: 3rem
+}
+
+h2 {
+    font-size: 2.5rem;
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+section {
+    padding: 30px 10%;
+}
+
+form {
+    align-items: flex-start;
+}
+
+input {
+    border-style: none;
+    padding: 10px;
+    border-radius: 10px;
+    color: var(--secondary_text);
+}
+
+textarea {
+    padding: 10px;
+    color: var(--secondary_text);
+    border-radius: 10px;
+    min-height: 100px;
+    height: fit-content;
+    resize: none;
+    overflow: hidden;
+    field-sizing: content;
+}
+
+button[type=submit] {
+    padding: 10px;
+    font-size: 1.5rem;
+    color: var(--secondary_text);
+}
+
+

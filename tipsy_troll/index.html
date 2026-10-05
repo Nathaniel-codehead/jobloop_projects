@@ -14,25 +14,42 @@
                 <h1>The Tipsy Troll</h1>
             </div>
             <nav class="flex small_gap">
-
+                <a href="#daily_special_section">Our daily special</a>
+                <a href="#about_us_section">About us</a>
+                <a href="#contact_us_section">Contact us</a>
             </nav>
         </header>
 
         <main>
-            <section id="hero_section">
-
+            <section id="hero_section" class="flex center">
+                <h2>Welcome to The Tipsy Troll!</h2>
             </section>
 
             <section id="daily_special_section">
+                <h2>Daily special</h2>
+                <h3>Dreamweaver's Delight</h3>
 
             </section>
 
             <section id="about_us_section">
-
+                <h2>About us</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque facilis reprehenderit sint ad eius ab voluptate incidunt similique fugiat totam eveniet iusto natus exercitationem explicabo fugit sit magnam vitae, velit a saepe amet nisi minus est. Enim illo ullam nisi asperiores laborum, inventore minima molestias architecto expedita blanditiis nulla! Laudantium totam neque adipisci, id reiciendis corrupti eaque minus. Magnam omnis quam, alias recusandae placeat, illo non natus sit blanditiis minima suscipit exercitationem? Amet numquam quae, sequi fuga sunt rerum, laboriosam quod excepturi eveniet architecto odit hic sit. Dolores, veniam mollitia, optio, aperiam ut sunt repellat ipsam porro ducimus sint possimus.</p>
             </section>
 
-            <section id="contact_us">
-                
+            <section id="contact_us_section">
+                <h2>Contact us</h2>
+                <form action="" class="flex column small_gap">
+                    <label for="contact_name_input">Name</label>
+                    <input id="contact_name_input" type="text" placeholder="John Doe...">
+
+                    <label for="contact_email_input">Email</label>
+                    <input id="contact_email_input" type="email" placeholder="johndoe@example.com" required>
+                    
+                    <label for="contact_message_input">Message</label>
+                    <textarea name="message" id="contact_message_input" required></textarea>
+
+                    <button type="submit">Send</button>
+                </form>
             </section>
         </main>
 
