@@ -1,0 +1,101 @@
+/* reset */
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+
+
+/* generic classes */
+.flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.text_padding {
+    padding: 30px 8%;
+}
+
+.small_gap {
+    gap: 10px;
+}
+
+.medium_gap {
+    gap: 20px;
+}
+
+.large_gap {
+    gap: 50px;
+}
+
+
+
+/* generic */
+body {
+    background-color: #2A2D34;
+    color: #EAF2EF;
+    font-size: 2rem;
+}
+
+section {
+    padding: 20px 100px;
+}
+
+header {
+    padding: 50px;
+}
+
+h1::before {
+    content: "-";
+    padding: 10px;
+    color: tomato;
+}
+
+li::after {
+    content: "★";
+    font-size: 1rem;
+    padding: 10px;
+    color: aquamarine;
+}
+
+li:nth-child(odd):not(:first-child) {
+    background-color: tomato;
+}
+
+li:last-child, li:first-child {
+    color:  cornflowerblue;
+}
+
+li {
+    width: fit-content;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+button {
+    background-color: aquamarine;
+    color: tomato;
+    font-size: 2rem;
+    border-radius: 10px;
+    border-style: hidden;
+    padding: 10px;
+    transition-duration: 3s;
+}
+
+button:hover {
+    transform: scale(1.5) rotate(1800deg);
+}
+
+#button_container {
+    margin: 100px 0px;
+}
