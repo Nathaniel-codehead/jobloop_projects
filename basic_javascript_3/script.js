@@ -92,10 +92,11 @@ const people = [
 	}
 ];
 
-let combined_age = 0;
+let combinedAge = 0;
 let number_of_ages = 0;
 
-for (let person of people) {
+for (let index = 0; index < people.length; index++) {
+	let person = people[index];
     if (person.name == "Otto") {
         continue
     }
@@ -104,13 +105,13 @@ for (let person of people) {
     person.title = (person.male) ? "Mr." : "Ms.";
     person.age += 2;
     person.hobbies.unshift("coding");
-    combined_age += person.age;
+    combinedAge += person.age;
     number_of_ages += 1;
 }
 
 console.log(people);
 
-let average_age = combined_age / number_of_ages;
+let averageAge = combinedAge / number_of_ages;
 
 
 
@@ -134,7 +135,7 @@ diceRoller(5, 20) skal returnere et array med 5 tilfeldige tall fra 1-20.
 
 ******************************************************************************/
 
-function random_number_sequence(length, max_value) {
+function random_number_sequence(length, max_value = 6) {
     let output_array = [];
 
     for (let number_index = 0; number_index < length; number_index++) {
