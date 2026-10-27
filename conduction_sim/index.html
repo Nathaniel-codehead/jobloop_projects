@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>conduction sim</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+
+    <div id="center">
+        <div id="grid">
+        
+        </div>
+        
+    </div>
+
+
+
+    <div id="control_l" class="control" >
+        <div id="set" onclick="set()"><p>Set</p></div>
+        <div id="setTemp" onclick="setTemp()" onmouseover="setElement(id)" temp="50" heatCap="5"><p>50</p></div>
+        <div id="source" onclick="source()"><p>Source</p></div>
+        <div id="wall" onclick="wall()"><p>Wall</p></div>
+        <div id="omni" onclick="setOmni()"><p>Omni</p></div>
+    </div>
+
+
+    <div id="control_r" class="control" >
+        <div id="pause" onclick="pause()"><p>Play</p></div>
+        <div id="view" onclick="view()"><p>view</p></div>
+        <div id="setSpeed" onmouseover="setElement(id)" speed="1.0"><p>1.0x</p></div>
+    </div>
+
+</body>
+</html>

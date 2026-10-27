@@ -1,0 +1,56 @@
+/* reset */
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+
+
+/* generic classes */
+.flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.text_padding {
+    padding: 30px 8%;
+}
+
+.small_gap {
+    gap: 10px;
+}
+
+.medium_gap {
+    gap: 20px;
+}
+
+.large_gap {
+    gap: 50px;
+}
+
+button {
+    transition-timing-function: cubic-bezier(0.1, 0.4, 0.1, 1);
+    transition-duration: 2s;
+    width: 100px;
+}
+
+button:hover {
+    width: 1000px;
+    transition-timing-function: cubic-bezier(0.9, 0, 0.9, 0.6);
+}
+
+@keyframes bounce {
+    0% {
+        
+    }
+}
