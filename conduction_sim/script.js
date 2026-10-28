@@ -46,6 +46,19 @@ document.getElementById("setTemp").style.borderColor = "#484848";
 
 
 
+// generic functions
+function clamp(value, min, max) {
+	return Math.min(Math.max(value, min), max)
+}
+
+
+
+function round_to_nearest(value, reference = 1) {
+	return Math.round(value / reference) * reference
+}
+
+
+
 // grid size fix
 window.addEventListener("resize", () => {
 	viewW = window.innerWidth;
@@ -58,7 +71,7 @@ window.addEventListener("resize", () => {
 
 
 // scroll wheel value output
-document.addEventListener("onwheel" in document ? "wheel" : "mousewheel", function(e) {
+document.addEventListener("onwheel" in document ? "wheel" : "mousewheel", (e) => {
 	e.wheel = (e.deltaY ? -e.deltaY : e.wheelDelta/40) / 100;
 
 	time = new Date();
@@ -76,14 +89,14 @@ document.addEventListener("onwheel" in document ? "wheel" : "mousewheel", functi
 	if (selectedElement == "setSpeed") {
 
 		speed = parseFloat(document.getElementById("setSpeed").getAttribute("speed"));
-		updated_speed = Math.round(Math.max(Math.min(speed + (scrollLength / 10), 5), 0.1) * 10) / 10;
+		updated_speed = Math.round(clamp(speed + (scrollLength / 10), 0.1, 5) * 10) / 10;
 		document.getElementById(selectedElement).setAttribute("speed", updated_speed);
 		document.getElementById("setSpeed").firstChild.innerHTML = `${updated_speed}x`;
 
 	} else if (!(selectedElement == null)) {
 		if (viewMode == "temp" || viewMode == "color") {
 			temp = parseInt(document.getElementById(selectedElement).getAttribute("temp"));
-			updated_temp = Math.max(Math.min(temp + scrollLength, 100), 0)
+			updated_temp = clamp(temp + scrollLength, 0, 100)
 			document.getElementById(selectedElement).setAttribute("temp", updated_temp);
 			if (selectedElement == "setTemp") {
 				selectedTemp = updated_temp
@@ -92,7 +105,7 @@ document.addEventListener("onwheel" in document ? "wheel" : "mousewheel", functi
 
 		} else if (viewMode == "heatCap") {
 			temp = parseInt(document.getElementById(selectedElement).getAttribute("heatCap"));
-			updated_temp = Math.max(Math.min(temp + scrollLength, 10), 1);
+			updated_temp = clamp(temp + scrollLength, 1, 10);
 			document.getElementById(selectedElement).setAttribute("heatCap", updated_temp);
 			if (selectedElement == "setTemp") {
 				selectedTemp = updated_temp
@@ -100,7 +113,6 @@ document.addEventListener("onwheel" in document ? "wheel" : "mousewheel", functi
 			}
 		}
 	}
-
 
 	if (logTemp) {
 		console.log(temp, scrollLength);
@@ -260,7 +272,7 @@ function calcTransfer(i) {
 		
 	}
 
-	element.setAttribute("calcTemp", tempSum)
+	element.setAttribute("calcTemp", clamp(round_to_nearest(tempSum, 0.0001), -10, 10))
 }
 
 
@@ -268,7 +280,8 @@ function calcTransfer(i) {
 // set all cells temperature based on calculations
 function setTransfer(i) {
 	element = document.getElementById(i);
-	element.setAttribute("temp", parseFloat(element.getAttribute("temp")) + parseFloat(element.getAttribute("calcTemp")))
+	let new_temperature = parseFloat(element.getAttribute("temp")) + parseFloat(element.getAttribute("calcTemp"))
+	element.setAttribute("temp", clamp(round_to_nearest(new_temperature, 0.0001), 0, 100))
 }
 
 
