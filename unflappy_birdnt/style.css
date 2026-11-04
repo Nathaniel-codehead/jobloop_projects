@@ -1,0 +1,57 @@
+/* import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+
+/* fancy stuff */
+:root {
+    --black: #2A2D34;
+    --white: #EAF2EF;
+    --dark_red: #561D25;
+    --red: #DB504A;
+    --soft_red: #FE6F5E;
+    --yellow: #E3B505;
+    --soft_yellow: #FFDB58;
+    --pink: #C45AB3;
+    --dark_blue: #2F4858;
+
+    --background: var(--black);
+    --dark_background: var(--black);
+    --border: var(--dark_blue);
+    --main_text: var(--white);
+}
+
+
+
+/* reset */
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+
+
+/* generic classes */
+.absolute {
+      position: absolute;
+}
+
+
+
+/* main stuff */
+body {
+      background-color: #2A2D34;
+}
+
+
+
+#player {
+	width: 50px;
+	height: 50px;
+}
+
+#player img {
+	width: 100%;
+	height: 100%;
+}
