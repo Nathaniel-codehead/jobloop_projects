@@ -1,11 +1,17 @@
 // init
-const TPS = 5;
-const player_size = {"x": 50, "y": 50}
+const TPS = 60;
+const SPEED_MULTIPLIER = 6;
+const TICK_SMOOTHING = 100;
+const DEBUG = true;
+
 let window_height = window.innerHeight;
 let window_width = window.innerWidth;
-let mouse = {"x": 0, "y": 0}
+let mouse = {"x": 0, "y": 0};
+let player;
+let asteroids = [];
+let next_asteroid_in = 1000;
 
-
+let recent_tick_durations = [];
 
 // event listeners
 window.addEventListener("resize", () => {
@@ -14,19 +20,217 @@ window.addEventListener("resize", () => {
 });
 
 document.addEventListener("mousemove", (event) => {
-	mouse["x"] = event.clientX;
-	mouse["y"] = event.clientY;
+	mouse.x = event.clientX;
+	mouse.y = event.clientY;
 });
+
+
+
+// classes
+class Vector {
+	constructor(x, y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	set(x, y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	set_vector(vector) {
+		this.x = vector.x;
+		this.y = vector.y;
+	}
+
+	distance_to(vector) {
+		return Math.round(Math.sqrt(difference(this.x, this.y) ** 2 + difference(vector.y, vector.y) ** 2));
+	}
+
+	vector_to(vector) {
+		return this.minus(vector);
+	}
+
+	angle_to(vector) {
+		let vector_difference = this.minus(vector);
+		return Math.atan2(vector_difference.x, vector_difference.y) / Math.PI * -180;
+	}
+
+	round() {
+		this.x = Math.round(this.x);
+		this.y = Math.round(this.y);
+	}
+
+	rounded() {
+		return new Vector(Math.round(this.x), Math.round(this.y));
+	}
+
+	clamp(min_x, max_x, min_y, max_y) {
+		this.x = clamp(this.x, min_x, max_x);
+		this.y = clamp(this.y, min_y, max_y);
+	}
+
+
+
+	// vector math
+	plus(vector) {
+		if (typeof(vector) == "number") {
+			return new Vector(this.x + vector, this.y + vector);
+		}
+
+		return new Vector(this.x + vector.x, this.y + vector.y);
+	}
+
+	minus(vector) {
+		if (typeof(vector) == "number") {
+			return new Vector(this.x - vector, this.y - vector);
+		}
+
+		return new Vector(this.x - vector.x, this.y - vector.y);
+	}
+
+	multiplied_by(vector) {
+		if (typeof(vector) == "number") {
+			return new Vector(this.x * vector, this.y * vector);
+		}
+
+		return new Vector(this.x * vector.x, this.y * vector.y);
+	}
+
+	divided_by(vector) {
+		if (typeof(vector) == "number") {
+			return new Vector(this.x / vector, this.y / vector);
+		}
+
+		return new Vector(this.x / vector.x, this.y / vector.y);
+	}
+
+	exponentiate_by(vector) {
+		if (typeof(vector) == "number") {
+			return new Vector(this.x ** vector, this.y ** vector);
+		}
+
+		return new Vector(this.x ** vector.x, this.y ** vector.y);
+	}
+
+	add(vector) {
+		if (typeof(vector) == "number") {
+			this.x += vector;
+			this.y += vector;
+		}
+
+		this.x += vector.x;
+		this.y += vector.y;
+	}
+
+	subtract(vector) {
+		if (typeof(vector) == "number") {
+			this.x -= vector;
+			this.y -= vector;
+		}
+
+		this.x -= vector.x;
+		this.y -= vector.y;
+	}
+
+	multiply(vector) {
+		if (typeof(vector) == "number") {
+			this.x *= vector;
+			this.y *= vector;
+		}
+
+		this.x *= vector.x;
+		this.y *= vector.y;
+	}
+
+	divide(vector) {
+		if (typeof(vector) == "number") {
+			this.x /= vector;
+			this.y /= vector;
+		}
+
+		this.x /= vector.x;
+		this.y /= vector.y;
+	}
+
+	invert() {
+		return this.multiplied_by(-1);
+	}
+
+	// statics
+	static vector(x, y) {
+		return {"x": x, "y": y};
+	}
+}
+
+
+
+class game_object {
+	constructor(id, size, hitbox_radius) {
+		this.id = id;
+		this.size = new Vector(size.x, size.y);
+		this.hitbox_radius = hitbox_radius;
+		this.rotation = 0;
+		this.position = new Vector(0, 0);
+		this.velocity = new Vector(0, 0);
+	}
+
+	clamp_within_window() {
+		let side_lengths = this.size.divided_by(2).rounded()
+		let min_x = side_lengths.x;
+		let max_x = window_width - side_lengths.x;
+		let min_y = side_lengths.y;
+		let max_y = window_height - side_lengths.y;
+
+		this.position.clamp(min_x, max_x, min_y, max_y)
+
+		if (this.position.x == min_x) {
+			this.velocity.x = Math.max(this.velocity.x, 0);
+		} else if (this.position.x == max_x) {
+			this.velocity.x = Math.min(this.velocity.x, 0);
+		}
+
+		if (this.position.y == min_y) {
+			this.velocity.y = Math.max(this.velocity.y, 0);
+		} else if (this.position.y == max_y) {
+			this.velocity.y = Math.min(this.velocity.y, 0);
+		}
+	}
+
+	update_sprite() {
+		let element = document.getElementById(this.id);
+
+		element.style.left = `${Math.round(this.position.x - this.size.x / 2)}`;
+		element.style.top = `${Math.round(this.position.y - this.size.y / 2)}`;
+		element.childNodes[1].style.transform = `rotate(${Math.round(this.rotation)}deg)`;
+	}
+
+	is_colliding_with(game_object) {
+		return (this.position.distance_to(game_object.position) < (this.hitbox_radius + game_object.hitbox_radius));
+	}
+}
+
+class Timer {
+	constructor() {
+		this.reset_timer();
+	}
+
+	reset_timer() {
+		let date = new Date();
+		this.start_time = date.getTime();
+	}
+
+	current_time() {
+		let date = new Date();
+		return date.getTime() - this.start_time;
+	}
+}
 
 
 
 // general functions
 function difference(x, y) {
 	return Math.abs(x - y);
-}
-
-function distance(position_1, position_2) {
-	return Math.round(Math.sqrt(difference(position_1["x"], position_2["x"]) ** 2 + difference(position_1["y"], position_2["y"]) ** 2));
 }
 
 function random_range(min, max) {
@@ -37,43 +241,77 @@ function clamp(value, min, max) {
 	return Math.max(Math.min(value, max), min);
 }
 
-function bound_position(position, max_x, max_y, size = {"x": 0, "y": 0}, min_x = 0, min_y = 0) {
-	let element_radius = {"x": size["x"] / 2, "y": size["y"] / 2};
-	position["x"] = clamp(position["x"], min_x + element_radius["x"], max_x - element_radius["x"])
-	position["y"] = clamp(position["y"], min_y + element_radius["y"], max_y - element_radius["y"])
-	return position
+function average(array) {
+	let average = 0;
+
+	for (item of array) {
+		average += item / array.length;
+	}
+
+	return average;
 }
 
-function vector_addition(vector_1, vector_2) {
-	
-}
-
-function angle_to(position, target_position) {
-	return Math.atan2()
+function round(value, to_nearest) {
+	return Math.round(value / to_nearest) * to_nearest;
 }
 
 
 
 // game functions
-function set_position(id, x, y, size = {"x": 0, "y": 0}) {
-	let element = document.getElementById(id);
-	element.style.left = `${Math.round(x - size["x"] / 2)}`;
-	element.style.top = `${Math.round(y - size["y"] / 2)}`;
+function update_sprites() {
+	player.update_sprite();
+
+	for (asteroid of asteroids) {
+		asteroid.update_sprite();
+	}
 }
 
-function set_rotation(id, degrees) {
-	let element = document.getElementById(id);
-	element.style.transform = `rotate(${degrees}deg)`;
+function update_player() {
+	player.velocity.subtract(player.position.vector_to(mouse).divided_by(TPS / SPEED_MULTIPLIER));
+	player.rotation = player.position.angle_to(mouse);
+	player.position.add(player.velocity.divided_by(TPS));
+	player.clamp_within_window();
+}
+
+function log_average_tick_duration(current_tick_time, log = false) {
+	if (!log) {
+		return;
+	}
+
+	recent_tick_durations.unshift(current_tick_time);
+	if (recent_tick_durations.length > TICK_SMOOTHING) {
+		console.log(`${round(average(recent_tick_durations), 0.01)}ms`);
+		recent_tick_durations = [];
+	}
+}
+
+function update_asteroids() {
+
 }
 
 
 
 // define main loop
+function initialize_game() {
+	player = new game_object("player", Vector.vector(50, 50), 50);
+	player.position.set(100, window_height / 2);
+}
+
 function main_tick() {
-	return;
+	const tick_timer = new Timer();
+
+	update_player();
+	spawn_asteroid();
+	update_asteroids();
+	// check_for_collision();
+
+	update_sprites();
+
+	log_average_tick_duration(tick_timer.current_time(), DEBUG)
 }
 
 
 
 // start main loop
-let main_loop_interval = setInterval(main_tick, 1000 / TPS)
+initialize_game();
+let main_loop_interval = setInterval(main_tick, 1000 / TPS);

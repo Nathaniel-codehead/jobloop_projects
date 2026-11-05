@@ -40,6 +40,11 @@
 
 
 /* main stuff */
+html, body {
+	height: 100%;
+	overflow: hidden;
+}
+
 body {
       background-color: #2A2D34;
 }
