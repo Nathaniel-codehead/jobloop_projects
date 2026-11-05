@@ -301,7 +301,7 @@ function main_tick() {
 	const tick_timer = new Timer();
 
 	update_player();
-	spawn_asteroid();
+	// spawn_asteroid();
 	update_asteroids();
 	// check_for_collision();
 
