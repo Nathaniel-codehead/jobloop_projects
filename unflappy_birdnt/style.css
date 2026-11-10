@@ -5,50 +5,46 @@
 
 /* fancy stuff */
 :root {
-    --black: #2A2D34;
-    --white: #EAF2EF;
-    --dark_red: #561D25;
-    --red: #DB504A;
-    --soft_red: #FE6F5E;
-    --yellow: #E3B505;
-    --soft_yellow: #FFDB58;
-    --pink: #C45AB3;
-    --dark_blue: #2F4858;
+	--black: #2A2D34;
+	--white: #EAF2EF;
+	--dark_red: #561D25;
+	--red: #DB504A;
+	--soft_red: #FE6F5E;
+	--yellow: #E3B505;
+	--soft_yellow: #FFDB58;
+	--pink: #C45AB3;
+	--dark_blue: #2F4858;
 
-    --background: var(--black);
-    --dark_background: var(--black);
-    --border: var(--dark_blue);
-    --main_text: var(--white);
+	--background: var(--black);
+	--dark_background: var(--black);
+	--border: var(--dark_blue);
+	--main_text: var(--white);
 }
 
 
 
 /* reset */
 * {
-    padding: 0px;
-    margin: 0px;
-    box-sizing: border-box;
+	padding: 0px;
+	margin: 0px;
+	box-sizing: border-box;
 }
 
 
 
 /* generic classes */
 .flex {
-    display: flex;
-    flex-direction: row;
+	display: flex;
+	flex-direction: row;
 }
 
 .column {
-    flex-direction: column;
+	flex-direction: column;
 }
 
 .center {
-    justify-content: center;
-    align-items: center;
-}
-
-.absolute {
-      position: absolute;
+	justify-content: center;
+	align-items: center;
 }
 
 
@@ -66,6 +62,7 @@ body {
 
 
 #player {
+	position: absolute;
 	width: 50px;
 	height: 50px;
 }
@@ -83,7 +80,13 @@ h2 {
 	color: #EAF2EF;
 }
 
-div {
+.asteroid {
+      position: absolute;
+}
+
+.hitbox {
 	border: tomato 3px solid;
 	border-radius: 100%;
+	position: absolute;
+	z-index: 2;
 }
