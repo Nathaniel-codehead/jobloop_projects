@@ -76,7 +76,7 @@ h2 {
 	font-family: "Roboto Mono";
 	font-size: 4rem;
 	font-weight: 900;
-	z-index: 1;
+	z-index: 2;
 	color: #EAF2EF;
 }
 
@@ -88,5 +88,9 @@ h2 {
 	border: tomato 3px solid;
 	border-radius: 100%;
 	position: absolute;
-	z-index: 2;
+	z-index: 3;
+}
+
+.warning {
+	position: absolute;
 }
