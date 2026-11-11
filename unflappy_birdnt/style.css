@@ -3,26 +3,6 @@
 
 
 
-/* fancy stuff */
-:root {
-	--black: #2A2D34;
-	--white: #EAF2EF;
-	--dark_red: #561D25;
-	--red: #DB504A;
-	--soft_red: #FE6F5E;
-	--yellow: #E3B505;
-	--soft_yellow: #FFDB58;
-	--pink: #C45AB3;
-	--dark_blue: #2F4858;
-
-	--background: var(--black);
-	--dark_background: var(--black);
-	--border: var(--dark_blue);
-	--main_text: var(--white);
-}
-
-
-
 /* reset */
 * {
 	padding: 0px;
@@ -56,7 +36,7 @@ html, body {
 }
 
 body {
-      background-color: #2A2D34;
+      background-color: #28292c;
 }
 
 
@@ -76,7 +56,7 @@ h2 {
 	font-family: "Roboto Mono";
 	font-size: 4rem;
 	font-weight: 900;
-	z-index: 2;
+	z-index: 110;
 	color: #EAF2EF;
 }
 
@@ -88,9 +68,19 @@ h2 {
 	border: tomato 3px solid;
 	border-radius: 100%;
 	position: absolute;
-	z-index: 3;
+	z-index: 50;
 }
 
 .warning {
 	position: absolute;
+	z-index: 10;
+}
+
+#menu_container {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	z-index: 100;
+	background-color: #00000000;
 }

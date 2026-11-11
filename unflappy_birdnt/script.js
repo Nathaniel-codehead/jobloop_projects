@@ -239,10 +239,11 @@ class Game_object {
 }
 
 class Simple_game_object {
-	constructor(id) {
+	constructor(id, size) {
 		this.id = id;
 		this.position = new Vector(0, 0);
 		this.rotation = 0;
+		this.size = size;
 	}
 
 	update_sprite() {
@@ -288,9 +289,9 @@ const SPEED_MULTIPLIER = 6;
 const ASTEROID_BASE_SPEED = 100;
 const MAX_ASTEROID_DEVIATION = 70;
 const TICK_SMOOTHING = TPS * 2;
-const DEBUG = false;
+const DEBUG = true;
 const PLAYER_SIZE = 50;
-const ASTEROID_SPAWN_MARGIN = 100;
+const ASTEROID_SPAWN_MARGIN = 200;
 const HITBOX_SCALE = 0.8;
 const ASTEROID_SPRITES = [
 	{
@@ -309,7 +310,8 @@ const ASTEROID_SPRITES = [
 		"hitbox_scale": 1
 	}
 ];
-const WARNING_SPRITES = ["orange_warning", "red_warning"]
+const WARNING_SPRITES = ["orange_warning", "red_warning"];
+const WARNING_SIZE = 70;
 
 let difficulty = 1;
 let score = 0;
@@ -361,7 +363,7 @@ function clamp(value, min, max) {
 function average(array) {
 	let average = 0;
 
-	for (item of array) {
+	for (let item of array) {
 		average += item / array.length;
 	}
 
@@ -383,7 +385,7 @@ function lerp(progress, start_value, end_value) {
 function array_max(array) {
 	let highest_value = array [0];
 
-	for (item of array) {
+	for (let item of array) {
 		highest_value = Math.max(highest_value, item);
 	}
 
@@ -395,7 +397,7 @@ function short_number_string(number, decimals) {
 	let output_string = "";
 	let passed_decimals = 0;
 
-	for (letter of number_string) {
+	for (let letter of number_string) {
 		if (passed_decimals > decimals) {
 			break;
 		}
@@ -419,14 +421,39 @@ function debug_log(message) {
 	}
 }
 
+function range(start, stop, step) {
+	let output_array = [];
+	for (let index = start; index <= stop; index += step) {
+		output_array.push(index);
+	}
+	return output_array;
+}
+
+function shuffled(array) {
+	let input_array_copy = array.slice(0); // fuck you javascript
+	let shuffled_array = [];
+
+	while (input_array_copy.length > 0) {
+		let index = random_range(0, input_array_copy.length - 1);
+		shuffled_array.push(input_array_copy[index]);
+		input_array_copy.splice(index, 1);
+	}
+
+	return shuffled_array;
+}
+
 
 
 // game functions
 function update_sprites() {
 	player.update_sprite();
 
-	for (asteroid of asteroids) {
+	for (let asteroid of asteroids) {
 		asteroid.update_sprite();
+	}
+
+	for (let warning of warnings) {
+		warning.update_sprite();
 	}
 }
 
@@ -438,7 +465,7 @@ function update_player() {
 
 	score += round(player.velocity.length() / TPS * difficulty / 10 + 100 / TPS);
 
-	for (asteroid of asteroids) {
+	for (let asteroid of asteroids) {
 		if (player.is_colliding_with(asteroid)) {
 			game_over();
 			return;
@@ -497,11 +524,13 @@ function spawn_asteroid(position, velocity, size, spin, asteroid_sprite, is_chil
 
 function spawn_regular_randomized_asteroid() {
 	let size = new Vector(1, 1).multiplied_by(random_range(50 * difficulty, 80 * difficulty) * 2);
+	size.clamp(0, 300, 0, 300)
+
 	let position = new Vector(0, 0);
 	let velocity = new Vector(0, 0);
 	let spin = random_range(60, 180) * (random_bool() ? -1 : 1);
 
-	let margin = ASTEROID_SPAWN_MARGIN * difficulty;
+	let margin = ASTEROID_SPAWN_MARGIN;
 
 	let min_sideways_velocity;
 	let max_sideways_velocity;
@@ -563,8 +592,15 @@ function remove_asteroid(asteroid) {
 	asteroids.splice(asteroids.indexOf(asteroid), 1);
 }
 
+function remove_warning(warning) {
+	let warning_id = warning.id;
+
+	document.getElementById(warning_id).remove();
+	warnings.splice(warnings.indexOf(warning), 1);
+}
+
 function get_asteroid_by_id(id) {
-	for (asteroid in asteroids) {
+	for (let asteroid of asteroids) {
 		if (asteroid.id == id) {
 			return asteroid;
 		}
@@ -572,7 +608,7 @@ function get_asteroid_by_id(id) {
 }
 
 function update_asteroids() {
-	for (asteroid of asteroids) {
+	for (let asteroid of asteroids) {
 		asteroid.position.add(asteroid.velocity.divided_by(TPS));
 		asteroid.rotation += asteroid.spin / TPS;
 		asteroid.rotation %= 360;
@@ -601,59 +637,61 @@ function update_asteroids() {
 		}
 
 		// asteroid collision check
-		for (target_asteroid of asteroids) {
-			check_collision(asteroid, target_asteroid)
-		}
+		check_asteroid_collisions(asteroid)
 	}
 }
 
-function check_collision(asteroid, target_asteroid) {
-	if (target_asteroid == asteroid) {
-		return;
-	}
+function check_asteroid_collisions(asteroid) {
+	for (let target_asteroid of asteroids) {
+		if (target_asteroid == asteroid) {
+			continue;
+		}
 
-	if (asteroid.position.distance_to(target_asteroid.position) > (asteroid.hitbox_radius + target_asteroid.hitbox_radius)) {
-		return;
-	}
+		if (asteroid.position.distance_to(target_asteroid.position) > (asteroid.hitbox_radius + target_asteroid.hitbox_radius)) {
+			continue;
+		}
 
-	if (asteroid.is_child && target_asteroid.is_child) {
-		return;
-	}
+		if (asteroid.is_child && target_asteroid.is_child) {
+			continue;
+		}
 
-	let number_of_child_asteroids = random_range(3, 5);
+		let number_of_child_asteroids = random_range(3, Math.round(5 * (0.5 + difficulty / 2)));
+		let random_direction = shuffled(range(0, 350, 10));
 
-	if (asteroid.is_child) {
-		remove_asteroid(asteroid);
-		debug_log(`${asteroid.id} was too young to survive the crash`);
+		if (asteroid.is_child) {
+			remove_asteroid(asteroid);
+			debug_log(`${asteroid.id} was too young to survive the crash with ${target_asteroid.id}`);
 
-		number_of_child_asteroids = 0;
-	}
+			number_of_child_asteroids = 0;
+		}
 
-	if (target_asteroid.is_child) {
-		remove_asteroid(target_asteroid);
-		debug_log(`${target_asteroid.id} was too young to survive the crash`);
+		if (target_asteroid.is_child) {
+			remove_asteroid(target_asteroid);
+			debug_log(`${target_asteroid.id} was too young to survive the crash with ${asteroid.id}`);
 
-		number_of_child_asteroids = 0;
-	}
+			number_of_child_asteroids = 0;
+		}
 
-	for (let index = 0; index < number_of_child_asteroids; index++) {
-		let position = asteroid.position.average(target_asteroid.position);
-		let average_velocity = average([asteroid.velocity.length(), target_asteroid.velocity.length()])
-		let velocity = new Vector(0, average_velocity).rotated_to(random_range(0, 359));
-		let size = asteroid.size.average(target_asteroid.size).divided_by(1 + (number_of_child_asteroids / 2));
-		let spin = random_range(60, 180) * (random_bool() ? -1 : 1);
+		for (let index = 0; index < number_of_child_asteroids; index++) {
+			let position = asteroid.position.average(target_asteroid.position);
+			let average_velocity = average([asteroid.velocity.length(), target_asteroid.velocity.length()])
+			
+			let velocity = new Vector(0, average_velocity).rotated_to(random_direction[index]);
+			let size = asteroid.size.average(target_asteroid.size).divided_by(3);
+			let spin = random_range(60, 180) * (random_bool() ? -1 : 1);
 
-		let new_asteroid = spawn_asteroid(position, velocity, size, spin, ASTEROID_SPRITES[random_range(0, 2)], true);
+			let new_asteroid = spawn_asteroid(position, velocity, size, spin, ASTEROID_SPRITES[random_range(0, 2)], true);
 
-		debug_log(`${new_asteroid.id} was born`);
-	}
+			debug_log(`${new_asteroid.id} was born`);
+		}
 
-	if (number_of_child_asteroids != 0) {
-		remove_asteroid(asteroid);
-		remove_asteroid(target_asteroid);
+		if (number_of_child_asteroids != 0) {
+			remove_asteroid(asteroid);
+			remove_asteroid(target_asteroid);
 
-		debug_log(`${asteroid.id} died during birth`);
-		debug_log(`${target_asteroid.id} died during birth`);
+			debug_log(`${asteroid.id} and ${target_asteroid.id} died during birth, they had ${number_of_child_asteroids} children`);
+			return;
+		}
 	}
 }
 
@@ -670,7 +708,7 @@ function game_over() {
 }
 
 function clear_asteroids() {
-	for (asteroid of asteroids) {
+	for (let asteroid of asteroids) {
 		remove_asteroid(asteroid);
 	}
 }
@@ -681,22 +719,47 @@ function update_ui() {
 
 function update_score() {
 	const score_display = document.getElementById("score_display");
+	let velocity_scale = clamp(player.velocity.length(), 0, 2000) / 2000;
 	score_display.textContent = `${score}`;
+	score_display.style.transform = `scale(${1 + velocity_scale * 0.2})`;
+	score_display.style.color = `color-mix(in srgb, tomato ${velocity_scale * 100}%, white ${(1 - velocity_scale) * 100}%)`
 }
 
 function spawn_warning(asteroid) {
-	let id = asteroid.id;
+	let id = `warning_${asteroid.id.substring(9)}`;
+	let asteroid_id = asteroid.id;
 	let out_of_bounds_warning_element = document.createElement("img");
-	out_of_bounds_warning_element.setAttribute("id", `warning_${id}`);
+	out_of_bounds_warning_element.classList.add("warning")
+	out_of_bounds_warning_element.setAttribute("id", id);
 	out_of_bounds_warning_element.setAttribute("src", `sprites/${WARNING_SPRITES[0]}.svg`);
-	out_of_bounds_warning_element.style.width = `${70}px`;
-	out_of_bounds_warning_element.style.height = `${70}px`;
+	out_of_bounds_warning_element.style.width = `${WARNING_SIZE}px`;
+	out_of_bounds_warning_element.style.height = `${WARNING_SIZE}px`;
 
-	let out_of_bounds_warning_game_object = new Simple_game_object(`warning_${id}`);
-	out_of_bounds_warning_game_object.position = asteroid.position;
+	let out_of_bounds_warning_game_object = new Simple_game_object(id, new Vector(WARNING_SIZE, WARNING_SIZE));
+	out_of_bounds_warning_game_object.position.set_vector(asteroid.position);
+	out_of_bounds_warning_game_object.asteroid_id = asteroid_id;
 
 	warnings.push(out_of_bounds_warning_game_object);
 	document.body.getElementsByTagName("main")[0].appendChild(out_of_bounds_warning_element);
+}
+
+function update_warnings() {
+	for (let warning of warnings) {
+		let asteroid = get_asteroid_by_id(warning.asteroid_id);
+
+		if (!asteroid) {
+			remove_warning(warning);
+			continue;
+		}
+
+		if (asteroid.position.x == clamp(asteroid.position.x, 0, window_width) && asteroid.position.y == clamp(asteroid.position.y, 0, window_height)) {
+			remove_warning(warning);
+			continue;
+		}
+
+		warning.position.set_vector(get_asteroid_by_id(warning.asteroid_id).position);
+		warning.position.clamp(WARNING_SIZE, window_width - WARNING_SIZE, WARNING_SIZE, window_height - WARNING_SIZE);
+	}
 }
 
 
@@ -713,7 +776,7 @@ function initialize_game() {
 	player.position.set(window_width / 2, window_height / 2);
 
 	if (DEBUG) {
-		let player_hitbox = document.createElement(div);
+		let player_hitbox = document.createElement("div");
 		player_hitbox.classList.add("hitbox");
 		player_hitbox.style.width = `${Math.round(PLAYER_SIZE * HITBOX_SCALE)}px`;
 		player_hitbox.style.height = `${Math.round(PLAYER_SIZE * HITBOX_SCALE)}px`;
@@ -723,20 +786,23 @@ function initialize_game() {
 	}
 
 	game_timer = new Timer();
+
+	next_asteroid_at = game_timer.current_time() + 1000;
 }
 
 function main_tick() {
-	game_timer.lap()
+	game_timer.lap();
 
-	difficulty += 0.01 / TPS
+	difficulty += 0.01 / TPS;
 
 	update_player();
 	try_to_spawn_new_asteroid();
 	update_asteroids();
+	update_warnings();
 	update_sprites();
 	update_ui();
 
-	log_tick_duration(game_timer.lap(), DEBUG)
+	log_tick_duration(game_timer.lap(), DEBUG);
 }
 
 
@@ -748,6 +814,5 @@ main_loop_interval_id = setInterval(main_tick, 1000 / TPS);
 
 
 // todo
-// finish warnings
 // make game over sequence
 // UI
