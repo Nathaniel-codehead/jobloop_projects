@@ -1,3 +1,5 @@
+"use strict";
+
 // classes
 class Vector {
 	constructor(x, y) {
@@ -211,7 +213,7 @@ class Game_object {
 	}
 
 	update_sprite() {
-		let element = document.getElementById(this.id);
+		const element = document.getElementById(this.id);
 		let offset = this.get_offset_for_current_rotation();
 		element.style.width = this.size.x;
 		element.style.height = this.size.y;
@@ -247,7 +249,7 @@ class Simple_game_object {
 	}
 
 	update_sprite() {
-		let element = document.getElementById(this.id);
+		const element = document.getElementById(this.id);
 		element.style.width = this.size.x;
 		element.style.height = this.size.y;
 		element.style.left = `${Math.round(this.position.x - this.size.x / 2)}px`;
@@ -289,7 +291,7 @@ const SPEED_MULTIPLIER = 6;
 const ASTEROID_BASE_SPEED = 100;
 const MAX_ASTEROID_DEVIATION = 70;
 const TICK_SMOOTHING = TPS * 2;
-const DEBUG = true;
+const DEBUG = false;
 const PLAYER_SIZE = 50;
 const ASTEROID_SPAWN_MARGIN = 200;
 const HITBOX_SCALE = 0.8;
@@ -315,6 +317,7 @@ const WARNING_SIZE = 70;
 
 let difficulty = 1;
 let score = 0;
+let is_player_dead = false;
 
 let window_height = window.innerHeight;
 let window_width = window.innerWidth;
@@ -467,7 +470,8 @@ function update_player() {
 
 	for (let asteroid of asteroids) {
 		if (player.is_colliding_with(asteroid)) {
-			game_over();
+			is_player_dead = true;
+			debug_log(`player became a bloody pulp after colliding with ${asteroid.id} at ${Math.round(player.velocity.length())} KM/H`);
 			return;
 		}
 	}
@@ -486,14 +490,14 @@ function log_tick_duration(current_tick_time, log = false) {
 }
 
 function spawn_asteroid(position, velocity, size, spin, asteroid_sprite, is_child = false) {
-	let new_asteroid_element = document.createElement("div");
-	let asteroid_sprite_element = document.createElement("img");
+	const new_asteroid_element = document.createElement("div");
+	const asteroid_sprite_element = document.createElement("img");
 
 	asteroid_sprite_element.setAttribute("src", `sprites/${asteroid_sprite.name}.svg`);
 	new_asteroid_element.appendChild(asteroid_sprite_element);
 
 	if (DEBUG) {
-		let hitbox_element = document.createElement("div");
+		const hitbox_element = document.createElement("div");
 		hitbox_element.classList.add("hitbox");
 		new_asteroid_element.appendChild(hitbox_element);
 		hitbox_element.style.width = `${Math.round(size.x * HITBOX_SCALE * asteroid_sprite.hitbox_scale)}px`;
@@ -586,14 +590,14 @@ function spawn_regular_randomized_asteroid() {
 }
 
 function remove_asteroid(asteroid) {
-	let asteroid_id = asteroid.id;
+	const asteroid_id = asteroid.id;
 
 	document.getElementById(asteroid_id).remove();
 	asteroids.splice(asteroids.indexOf(asteroid), 1);
 }
 
 function remove_warning(warning) {
-	let warning_id = warning.id;
+	const warning_id = warning.id;
 
 	document.getElementById(warning_id).remove();
 	warnings.splice(warnings.indexOf(warning), 1);
@@ -655,7 +659,10 @@ function check_asteroid_collisions(asteroid) {
 			continue;
 		}
 
-		let number_of_child_asteroids = random_range(3, Math.round(5 * (0.5 + difficulty / 2)));
+		let difficulty_multiplier = (1 + (difficulty - 1) / 4);
+		let number_of_child_asteroids = random_range(Math.round(3 * difficulty_multiplier), Math.round(5 * difficulty_multiplier));
+		number_of_child_asteroids = Math.min(number_of_child_asteroids, 36)
+
 		let random_direction = shuffled(range(0, 350, 10));
 
 		if (asteroid.is_child) {
@@ -705,6 +712,41 @@ function try_to_spawn_new_asteroid() {
 
 function game_over() {
 	clearInterval(main_loop_interval_id);
+
+	let highscore = localStorage.getItem("highscore");
+	if (!highscore) {
+		highscore = 0;
+	}
+
+	// background
+	const menu_container = document.getElementById("menu_container");
+	menu_container.style.backgroundColor = "#00000040";
+
+	// score display
+	const score_display = document.getElementById("score_display");
+	score_display.style.transitionDuration = `1s`;
+	score_display.style.marginTop = `100px`;
+	score_display.style.transform = "scale(1.2)";
+
+	if (score > highscore) {
+		score_display.style.color = `seagreen`;
+	} else {
+		score_display.style.color = `cornflowerblue`;	
+	}
+
+	// personal best
+	const personal_best = document.getElementById("personal_best");
+	personal_best.style.opacity = "100%";
+
+	if (score > highscore) {
+		personal_best.style.color = `seagreen`;
+	} else {
+		personal_best.style.color = `white`;
+	}
+
+	highscore = Math.max(score, highscore);
+	document.getElementById("highscore").textContent = `${highscore}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	localStorage.setItem("highscore", highscore);
 }
 
 function clear_asteroids() {
@@ -720,15 +762,15 @@ function update_ui() {
 function update_score() {
 	const score_display = document.getElementById("score_display");
 	let velocity_scale = clamp(player.velocity.length(), 0, 2000) / 2000;
-	score_display.textContent = `${score}`;
+	score_display.textContent = `${score}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	score_display.style.transform = `scale(${1 + velocity_scale * 0.2})`;
-	score_display.style.color = `color-mix(in srgb, tomato ${velocity_scale * 100}%, white ${(1 - velocity_scale) * 100}%)`
+	score_display.style.color = `color-mix(in srgb, tomato ${velocity_scale * 100}%, white ${(1 - velocity_scale) * 100}%)`;
 }
 
 function spawn_warning(asteroid) {
 	let id = `warning_${asteroid.id.substring(9)}`;
 	let asteroid_id = asteroid.id;
-	let out_of_bounds_warning_element = document.createElement("img");
+	const out_of_bounds_warning_element = document.createElement("img");
 	out_of_bounds_warning_element.classList.add("warning")
 	out_of_bounds_warning_element.setAttribute("id", id);
 	out_of_bounds_warning_element.setAttribute("src", `sprites/${WARNING_SPRITES[0]}.svg`);
@@ -769,6 +811,7 @@ function initialize_game() {
 	difficulty = 1;
 	score = 0;
 	next_asteroid_id = 0;
+	is_player_dead = false;
 
 	clear_asteroids();
 
@@ -776,7 +819,7 @@ function initialize_game() {
 	player.position.set(window_width / 2, window_height / 2);
 
 	if (DEBUG) {
-		let player_hitbox = document.createElement("div");
+		const player_hitbox = document.createElement("div");
 		player_hitbox.classList.add("hitbox");
 		player_hitbox.style.width = `${Math.round(PLAYER_SIZE * HITBOX_SCALE)}px`;
 		player_hitbox.style.height = `${Math.round(PLAYER_SIZE * HITBOX_SCALE)}px`;
@@ -801,6 +844,10 @@ function main_tick() {
 	update_warnings();
 	update_sprites();
 	update_ui();
+
+	if (is_player_dead) {
+		game_over();
+	}
 
 	log_tick_duration(game_timer.lap(), DEBUG);
 }
