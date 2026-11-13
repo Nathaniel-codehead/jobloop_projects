@@ -76,7 +76,7 @@ h2 {
 	z-index: 10;
 }
 
-#menu_container {
+#menu_background {
 	position: absolute;
 	height: 100%;
 	width: 100%;
@@ -93,4 +93,23 @@ h2 {
 	color: white;
 	opacity: 0%;
 	transition-duration: 1s;
+}
+
+#restart_button {
+	position: absolute;
+	bottom: -200px;
+	z-index: 110;
+	font-family: "Roboto Mono";
+	background-color: #00000000;
+	color: cornflowerblue;
+	border-radius: 20px;
+	border: cornflowerblue solid 5px;
+	font-size: 2rem;
+	padding: 10px;
+	transition-duration: 0.3s;
+}
+
+#restart_button:hover {
+	color: seagreen;
+	border-color: seagreen;
 }

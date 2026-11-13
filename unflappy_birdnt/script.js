@@ -711,45 +711,6 @@ function try_to_spawn_new_asteroid() {
 	}
 }
 
-function game_over() {
-	clearInterval(main_loop_interval_id);
-
-	let highscore = localStorage.getItem("highscore");
-	if (!highscore) {
-		highscore = 0;
-	}
-
-	// background
-	const menu_container = document.getElementById("menu_container");
-	menu_container.style.opacity = "40%";
-
-	// score display
-	const score_display = document.getElementById("score_display");
-	score_display.style.transitionDuration = `1s`;
-	score_display.style.marginTop = `100px`;
-	score_display.style.transform = "scale(1.2)";
-
-	if (score > highscore) {
-		score_display.style.color = `seagreen`;
-	} else {
-		score_display.style.color = `cornflowerblue`;	
-	}
-
-	// personal best
-	const personal_best = document.getElementById("personal_best");
-	personal_best.style.opacity = "100%";
-
-	if (score > highscore) {
-		personal_best.style.color = `seagreen`;
-	} else {
-		personal_best.style.color = `white`;
-	}
-
-	highscore = Math.max(score, highscore);
-	document.getElementById("highscore").textContent = `${highscore}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	localStorage.setItem("highscore", highscore);
-}
-
 function clear_asteroids() {
 	while (asteroids.length > 0) {
 		remove_asteroid(asteroids[0]);
@@ -809,26 +770,6 @@ function update_warnings() {
 	}
 }
 
-function new_game_transition() {
-	const score_display = document.getElementById("score_display");
-
-	if (game_timer.current_time() >= 1000) {
-		clearInterval(new_game_interval_id);
-		player.position.set(window_width / 2, window_height / 2);
-		player.update_sprite();
-		score_display.textContent = "0";
-		initialize_game();
-		return;
-	}
-
-	score = Math.floor(score / (1 + 15 / TPS));
-	score_display.textContent = `${score}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-	player.position.x += ((window_width / 2) - player.position.x) / (TPS / 15)
-	player.position.y += ((window_height / 2) - player.position.y) / (TPS / 15)
-	player.update_sprite();
-}
-
 
 
 // define main loop
@@ -854,16 +795,62 @@ function initialize_game() {
 	const score_display = document.getElementById("score_display");
 	score_display.style.transitionDuration = `0s`;
 
+	const restart_button = document.getElementById("restart_button");
+	restart_button.style.transitionDuration = "0.3s";
+
 	game_timer = new Timer();
 
 	next_asteroid_at = game_timer.current_time() + 1000;
 	main_loop_interval_id = setInterval(main_tick, 1000 / TPS);
 }
 
+function game_over() {
+	clearInterval(main_loop_interval_id);
+
+	let highscore = localStorage.getItem("highscore");
+	if (!highscore) {
+		highscore = 0;
+	}
+
+	// background
+	const menu_background = document.getElementById("menu_background");
+	menu_background.style.opacity = "40%";
+
+	// score display
+	const score_display = document.getElementById("score_display");
+	score_display.style.transitionDuration = `1s`;
+	score_display.style.marginTop = `100px`;
+	score_display.style.transform = "scale(1.2)";
+
+	if (score > highscore) {
+		score_display.style.color = `seagreen`;
+	} else {
+		score_display.style.color = `cornflowerblue`;	
+	}
+
+	// personal best
+	const personal_best = document.getElementById("personal_best");
+	personal_best.style.opacity = "100%";
+
+	if (score > highscore) {
+		personal_best.style.color = `seagreen`;
+	} else {
+		personal_best.style.color = `white`;
+	}
+
+	highscore = Math.max(score, highscore);
+	document.getElementById("highscore").textContent = `${highscore}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	localStorage.setItem("highscore", highscore);
+
+	const restart_button = document.getElementById("restart_button");
+	restart_button.style.transitionDuration = "1s";
+	restart_button.style.bottom = `${window_height / 2}`;
+}
+
 function restart_game() {
 	// background
-	const menu_container = document.getElementById("menu_container");
-	menu_container.style.opacity = "0%";
+	const menu_background = document.getElementById("menu_background");
+	menu_background.style.opacity = "0%";
 
 	// score display
 	const score_display = document.getElementById("score_display");
@@ -876,9 +863,33 @@ function restart_game() {
 	const personal_best = document.getElementById("personal_best");
 	personal_best.style.opacity = "0%";
 
+	// restart button
+	const restart_button = document.getElementById("restart_button");
+	restart_button.style.bottom = "-200";
+
 	clear_asteroids();
 	game_timer.reset_timer()
 	new_game_interval_id = setInterval(new_game_transition, 1000 / TPS);
+}
+
+function new_game_transition() {
+	const score_display = document.getElementById("score_display");
+
+	if (game_timer.current_time() >= 1000) {
+		clearInterval(new_game_interval_id);
+		player.position.set(window_width / 2, window_height / 2);
+		player.update_sprite();
+		score_display.textContent = "0";
+		initialize_game();
+		return;
+	}
+
+	score = Math.floor(score / (1 + 15 / TPS));
+	score_display.textContent = `${score}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+	player.position.x += ((window_width / 2) - player.position.x) / (TPS / 15)
+	player.position.y += ((window_height / 2) - player.position.y) / (TPS / 15)
+	player.update_sprite();
 }
 
 function main_tick() {
