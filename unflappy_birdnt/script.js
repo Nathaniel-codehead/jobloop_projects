@@ -324,6 +324,7 @@ let window_width = window.innerWidth;
 let mouse = new Vector(0, 0);
 let game_timer;
 let main_loop_interval_id;
+let new_game_interval_id;
 
 let player;
 let asteroids = [];
@@ -519,7 +520,7 @@ function spawn_asteroid(position, velocity, size, spin, asteroid_sprite, is_chil
 
 	spawn_warning(new_asteroid_game_object);
 
-	asteroids.push(new_asteroid_game_object);
+	asteroids.push(new_asteroid_game_object);	
 	
 	document.body.getElementsByTagName("main")[0].appendChild(new_asteroid_element);
 
@@ -720,7 +721,7 @@ function game_over() {
 
 	// background
 	const menu_container = document.getElementById("menu_container");
-	menu_container.style.backgroundColor = "#00000040";
+	menu_container.style.opacity = "40%";
 
 	// score display
 	const score_display = document.getElementById("score_display");
@@ -750,8 +751,12 @@ function game_over() {
 }
 
 function clear_asteroids() {
-	for (let asteroid of asteroids) {
-		remove_asteroid(asteroid);
+	while (asteroids.length > 0) {
+		remove_asteroid(asteroids[0]);
+	}
+
+	while (warnings.length > 0) {
+		remove_warning(warnings[0]);
 	}
 }
 
@@ -804,6 +809,26 @@ function update_warnings() {
 	}
 }
 
+function new_game_transition() {
+	const score_display = document.getElementById("score_display");
+
+	if (game_timer.current_time() >= 1000) {
+		clearInterval(new_game_interval_id);
+		player.position.set(window_width / 2, window_height / 2);
+		player.update_sprite();
+		score_display.textContent = "0";
+		initialize_game();
+		return;
+	}
+
+	score = Math.floor(score / (1 + 15 / TPS));
+	score_display.textContent = `${score}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+	player.position.x += ((window_width / 2) - player.position.x) / (TPS / 15)
+	player.position.y += ((window_height / 2) - player.position.y) / (TPS / 15)
+	player.update_sprite();
+}
+
 
 
 // define main loop
@@ -812,8 +837,6 @@ function initialize_game() {
 	score = 0;
 	next_asteroid_id = 0;
 	is_player_dead = false;
-
-	clear_asteroids();
 
 	player = new Game_object("player", new Vector(PLAYER_SIZE, PLAYER_SIZE), PLAYER_SIZE / 2 * HITBOX_SCALE);
 	player.position.set(window_width / 2, window_height / 2);
@@ -828,9 +851,34 @@ function initialize_game() {
 		// spawn_asteroid(Vector.vector(900, 400), Vector.vector(0,0), Vector.vector(100, 100), 60, ASTEROID_SPRITES[1]);
 	}
 
+	const score_display = document.getElementById("score_display");
+	score_display.style.transitionDuration = `0s`;
+
 	game_timer = new Timer();
 
 	next_asteroid_at = game_timer.current_time() + 1000;
+	main_loop_interval_id = setInterval(main_tick, 1000 / TPS);
+}
+
+function restart_game() {
+	// background
+	const menu_container = document.getElementById("menu_container");
+	menu_container.style.opacity = "0%";
+
+	// score display
+	const score_display = document.getElementById("score_display");
+	score_display.style.transitionDuration = `1s`;
+	score_display.style.marginTop = `0px`;
+	score_display.style.transform = "scale(1)";
+	score_display.style.color = "white";
+
+	// personal best
+	const personal_best = document.getElementById("personal_best");
+	personal_best.style.opacity = "0%";
+
+	clear_asteroids();
+	game_timer.reset_timer()
+	new_game_interval_id = setInterval(new_game_transition, 1000 / TPS);
 }
 
 function main_tick() {
@@ -856,7 +904,6 @@ function main_tick() {
 
 // start main loop
 initialize_game();
-main_loop_interval_id = setInterval(main_tick, 1000 / TPS);
 
 
 
