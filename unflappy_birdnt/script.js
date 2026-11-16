@@ -795,9 +795,6 @@ function initialize_game() {
 	const score_display = document.getElementById("score_display");
 	score_display.style.transitionDuration = `0s`;
 
-	const restart_button = document.getElementById("restart_button");
-	restart_button.style.transitionDuration = "0.3s";
-
 	game_timer = new Timer();
 
 	next_asteroid_at = game_timer.current_time() + 1000;
@@ -843,7 +840,6 @@ function game_over() {
 	localStorage.setItem("highscore", highscore);
 
 	const restart_button = document.getElementById("restart_button");
-	restart_button.style.transitionDuration = "1s";
 	restart_button.style.bottom = `${window_height / 2}`;
 }
 
@@ -854,7 +850,6 @@ function restart_game() {
 
 	// score display
 	const score_display = document.getElementById("score_display");
-	score_display.style.transitionDuration = `1s`;
 	score_display.style.marginTop = `0px`;
 	score_display.style.transform = "scale(1)";
 	score_display.style.color = "white";
@@ -919,5 +914,4 @@ initialize_game();
 
 
 // todo
-// make game over sequence
 // UI

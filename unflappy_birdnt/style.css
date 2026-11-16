@@ -106,7 +106,7 @@ h2 {
 	border: cornflowerblue solid 5px;
 	font-size: 2rem;
 	padding: 10px;
-	transition-duration: 0.3s;
+	transition: bottom 1s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
 }
 
 #restart_button:hover {
