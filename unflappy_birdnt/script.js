@@ -170,11 +170,6 @@ class Vector {
 	invert() {
 		return this.multiplied_by(-1);
 	}
-
-	// statics
-	static vector(x, y) {
-		return new Vector(x, y);
-	}
 }
 
 class Game_object {
@@ -789,7 +784,7 @@ function initialize_game() {
 		player_hitbox.style.height = `${Math.round(PLAYER_SIZE * HITBOX_SCALE)}px`;
 		document.getElementById("player").appendChild(player_hitbox);
 
-		// spawn_asteroid(Vector.vector(900, 400), Vector.vector(0,0), Vector.vector(100, 100), 60, ASTEROID_SPRITES[1]);
+		// spawn_asteroid(new Vector(900, 400), new Vector(0,0), new Vector(100, 100), 60, ASTEROID_SPRITES[1]);
 	}
 
 	const score_display = document.getElementById("score_display");
