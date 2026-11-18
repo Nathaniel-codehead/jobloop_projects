@@ -319,8 +319,11 @@ function lerp(progress, start_value, end_value) {
 // game functions
 function update_player() {
 	let velocity = new Vector(0, 0);
-	velocity.x = (Keyboard.get_key("arrowRight") ? 1 : 0) - (Keyboard.get_key("arrowLeft") ? 1 : 0);
-	velocity.y = (Keyboard.get_key("arrowDown") ? 1 : 0) - (Keyboard.get_key("arrowUp") ? 1 : 0);
+	velocity.x += (Keyboard.get_key("arrowRight") ? 1 : 0) - (Keyboard.get_key("arrowLeft") ? 1 : 0);
+	velocity.y += (Keyboard.get_key("arrowDown") ? 1 : 0) - (Keyboard.get_key("arrowUp") ? 1 : 0);
+
+	velocity.x += (Keyboard.get_key("keyD") ? 1 : 0) - (Keyboard.get_key("keyA") ? 1 : 0);
+	velocity.y += (Keyboard.get_key("keyS") ? 1 : 0) - (Keyboard.get_key("keyW") ? 1 : 0);
 
 	if ((velocity.get_length() != 0) || (player.position == mouse_position)) {
 		move_to_mouse = false;
