@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+
+
+/* reset */
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: "roboto mono";
+	color: #EAF2EF;
+	border: #DB504A 1px solid;
+}
+
+
+
+/* generic classes */
+.flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.wrap {
+	flex-wrap: wrap;
+}
+
+.small_gap {
+	gap: 20px;
+}
+
+
+
+/* main */
+h1 {
+	font-size: 4rem;
+	color: #DB504A;
+}
+
+body {
+	background-color: #1f2020;
+}
+
+a {
+	text-decoration: none;
+}
+
+header {
+	position: sticky;
+}
+
+button {
+	background-color: #0000;
+	border: none;
+}
+
+p {
+	font-size: 1.5rem;
+}
+
+main {
+	padding: 0px 100px;
+}
+
+
+
+.movie_card {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	cursor:pointer;
+}
+
+.movie_poster_background {
+	background-color: #2A2D34;
+	width: 200px;
+	height: 300px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+
+#add_movie_button img {
+	width: 100px;
+	height: 100px;
+}
+
+
