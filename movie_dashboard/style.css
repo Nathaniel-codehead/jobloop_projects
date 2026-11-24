@@ -64,6 +64,7 @@ button {
 
 p {
 	font-size: 1.5rem;
+	max-width: 200px;
 }
 
 main {
@@ -75,15 +76,20 @@ main {
 .movie_card {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	gap: 10px;
-	cursor:pointer;
+	cursor: pointer;
+	transition-duration: 0.5s;
+}
+
+.movie_card:hover {
+	transform: scale(1.06);
 }
 
 .movie_poster_background {
 	background-color: #2A2D34;
 	width: 200px;
 	height: 300px;
-
 	display: flex;
 	justify-content: center;
 	align-items: center;
