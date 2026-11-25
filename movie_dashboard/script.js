@@ -1,17 +1,19 @@
 "use strict";
 
-// variable init
+// globals init
 let displayed_movies = [];
 
 const example_movie = {
-	"id": "fish_the_movie",
-	"title": "Fish: The Movie",
+	"id": "fish_2_the_fishening",
+	"title": "Fish 2: The Fishening",
 	"image": {
 		"url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic01.nyt.com%2Fimages%2F2022%2F09%2F08%2Fworld%2F08queen-photos38%2Fmerlin_212192898_c7e9f237-4dac-4923-916c-9b7dd07e6bd5-videoSixteenByNine3000.jpg&f=1&nofb=1&ipt=5a8327a4623cff272327d0b1f8478bf1bc4f4bbdbff62184672aef3b87281b8d&ipo=images",
 		"cover": true
 	},
 	"rating": 8,
-	"duration": 152
+	"duration": 152,
+	"released": "20112026",
+	"favorite": true
 };
 
 
@@ -63,7 +65,7 @@ function clear_movies() {
 }
 
 function display_movies(movie_array) {
-	clear_movies()
+	clear_movies();
 
 	for (let movie of movie_array) {
 		display_movie(movie);

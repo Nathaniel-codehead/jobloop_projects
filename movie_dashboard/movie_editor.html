@@ -1,0 +1,47 @@
+<!DOCTYPE html/>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		
+		<title>LMDb</title>
+		
+		<script defer src="movie_editor.js"></script>
+		<link rel="stylesheet" href="style.css"/>
+	</head>
+	<body>
+		<header>
+			<div class="flex center">
+				<a href="index.html" class="interactive">
+					<h1>Local Movie Database</h1>
+				</a>
+			</div>
+		</header>
+		<main>
+			<section id="movie_properties_section" class="flex even">
+				<div class="flex column center small_gap">
+					<div id="movie_poster_preview_background" class="movie_poster_background">
+						<img id="preview_image" src="images/default_movie_icon.svg">
+					</div>
+					<input id="poster_url_input" class="interactive" type="url" placeholder="https://example.com/example_image.png" onchange="set_movie_poster_url()">
+					<button id="cover_toggle_button" class="toggle_button interactive" type="button" onclick="toggle_image_cover()">Cover</button>
+				</div>
+				<div class="flex column center small_gap">
+					<div class="flex column center small_gap">
+						<h3>Title</h3>
+						<input id="title_input" class="interactive" type="text" placeholder="Fish 2: The fishening" onchange="set_movie_poster_url()">
+					</div>
+					<div class="flex column center small_gap">
+						<h3>Rating</h3>
+					</div>
+					<div class="flex column center small_gap">
+						<h3>Duration</h3>
+					</div>
+					<div class="flex column center small_gap">
+						<h3>Released</h3>
+					</div>
+				</div>
+			</section>
+		</main>
+	</body>
+</html>
