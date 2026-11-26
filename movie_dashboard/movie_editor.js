@@ -20,6 +20,28 @@ function get_url_parameter(parameter_name) {
 	return null;
 }
 
+function get_id(string) {
+	let filtered_string = "";
+
+	let invalid_characters = false;
+
+	for (letter of string.toLowerCase()) {
+		if (letter.search(/[a-z0-9]|_/) == -1) {
+			invalid_characters = true;
+			continue;
+		}
+
+		if (invalid_characters) {
+			filtered_string += "_";
+			invalid_characters = false;
+		}
+
+		filtered_string += letter;
+	}
+
+	return filtered_string;
+}
+
 function set_movie_poster_url() {
 	let poster_url_input = document.getElementById("poster_url_input");
 
@@ -60,6 +82,106 @@ function toggle_image_cover() {
 	preview_image.style.objectFit = (is_cover_enabled) ? "cover" : "contain";
 }
 
+function set_movie_title() {
+	let title_input = document.getElementById("title_input");
+	let save_button = document.getElementById("save_button");
+	let error_display = document.getElementById("title_error_display");
+	let movie_id = get_url_parameter("movie_id");
+	let current_title_id = get_id(title_input.value);
+
+	let error_message = "";
+
+	if (title_input.value == "") {
+		error_message = "MUST INCLUDE TITLE TO SAVE!";
+	} 
+	
+	if (current_title_id != movie_id) {
+		let stored_movies = JSON.parse(localStorage.getItem("movies"));
+
+		if (!stored_movies) {
+			stored_movies = [{"id":"eee"}];
+		}
+
+		for (movie of stored_movies) {
+			if (movie.id == current_title_id) {
+				error_message = "THIS TITLE WILL OVERWRITE AN ALREADY EXISTING MOVIE!";
+				break;
+			}
+		}
+	}
+
+	if (title_input.value == "") {
+		save_button.setAttribute("disabled");
+	} else {
+		save_button.removeAttribute("disabled");
+	}
+
+	error_display.textContent = error_message;
+	current_movie.title = title_input.value;
+}
+
+function set_movie_rating() {
+	let rating_slider = document.getElementById("rating_slider");
+	let rating_display = document.getElementById("rating_display");
+	rating_display.textContent = `${rating_slider.value}/10`;
+	current_movie.rating = rating_slider.value;
+}
+
+function set_movie_duration() {
+	let hours_input = document.getElementById("duration_hours_input");
+	let minutes_input = document.getElementById("duration_minutes_input");
+
+	minutes_input.value = Math.round(minutes_input.value);
+
+	if (minutes_input.value > 59) {
+		hours_input.value = Math.floor(minutes_input.value / 60);
+		minutes_input.value = minutes_input.value % 60;
+	}
+
+	if (hours_input.value != Math.round(hours_input.value)) {
+		minutes_input.value = Math.round((hours_input.value % 1) * 60);
+		hours_input.value = Math.floor(hours_input.value);
+	}
+
+	current_movie.duration = hours_input.value * 60 + minutes_input.value;
+}
+
+function set_movie_release_date() {
+	let release_date_input = document.getElementById("release_date_input");
+	current_movie.release = release_date_input.value.replaceAll("-", "")
+}
+
+function save_changes() {
+	let stored_movies = JSON.parse(localStorage.getItem("movies"));
+	let movie_id = get_url_parameter("movie_id");
+
+	if (!stored_movies) {
+		stored_movies = [];
+	}
+
+	if (!movie_id) {
+		stored_movies.push(current_movie);
+	} else {
+		let overwrote_movie = false
+
+		for (movie of stored_movies) {
+			if (movie.id == movie_id) {
+				movie = current_movie;
+				overwrote_movie = true;
+				break;
+			}
+		}
+
+		if (!overwrote_movie) {
+			console.error(`Couldn't find movie \"${movie_id}\" to overwrite.`);
+		}
+	}
+
+	localStorage.setItem("movies", JSON.stringify(stored_movies));
+}
+
+
+
 window.addEventListener("load", () => {
 	let movie_id = get_url_parameter("movie_id");
 
@@ -70,6 +192,7 @@ window.addEventListener("load", () => {
 	let stored_movies = JSON.parse(localStorage.getItem("movies"));
 
 	if (!stored_movies) {
+		console.error(`couldn't find ${movie_id}`);
 		return;
 	}
 
@@ -80,5 +203,5 @@ window.addEventListener("load", () => {
 		}
 	}
 
-	console.error(`couldn't find ${movie_id}`);
+	console.error(`couldn't find \"${movie_id}\"`);
 });

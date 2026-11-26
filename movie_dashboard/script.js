@@ -12,8 +12,7 @@ const example_movie = {
 	},
 	"rating": 8,
 	"duration": 152,
-	"released": "20112026",
-	"favorite": true
+	"released": "20261120"
 };
 
 

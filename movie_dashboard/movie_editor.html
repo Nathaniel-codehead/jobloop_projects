@@ -17,31 +17,49 @@
 				</a>
 			</div>
 		</header>
-		<main>
+		<main class="flex column large_gap">
 			<section id="movie_properties_section" class="flex even">
 				<div class="flex column center small_gap">
 					<div id="movie_poster_preview_background" class="movie_poster_background">
 						<img id="preview_image" src="images/default_movie_icon.svg">
 					</div>
 					<input id="poster_url_input" class="interactive" type="url" placeholder="https://example.com/example_image.png" onchange="set_movie_poster_url()">
-					<button id="cover_toggle_button" class="toggle_button interactive" type="button" onclick="toggle_image_cover()">Cover</button>
+					<button id="cover_toggle_button" class="toggle_button" type="button" onclick="toggle_image_cover()">Cover</button>
 				</div>
-				<div class="flex column center small_gap">
+				<div class="flex column center large_gap">
 					<div class="flex column center small_gap">
 						<h3>Title</h3>
-						<input id="title_input" class="interactive" type="text" placeholder="Fish 2: The fishening" onchange="set_movie_poster_url()">
+						<input id="title_input" class="interactive" type="text" placeholder="Fish 2: The fishening" onchange="set_movie_title()">
+						<p id="title_error_display">MUST INCLUDE TITLE TO SAVE!</p>
 					</div>
 					<div class="flex column center small_gap">
 						<h3>Rating</h3>
+						<input id="rating_slider" class="interactive" type="range" step="1" value="1" max="10" min="1" oninput="set_movie_rating()">
+						<h4 id="rating_display">1/10</h4>
 					</div>
 					<div class="flex column center small_gap">
 						<h3>Duration</h3>
+						<div id="duration_input_container" class="flex">
+							<input id="duration_hours_input" class="interactive" type="number" placeholder="1" onchange="set_movie_duration()">
+							<input id="duration_minutes_input" class="interactive" type="number" placeholder="30" onchange="set_movie_duration()">
+						</div>
 					</div>
 					<div class="flex column center small_gap">
 						<h3>Released</h3>
+						<input id="release_date_input" class="interactive" type="date" onchange="set_movie_release_date()">
 					</div>
 				</div>
 			</section>
+			<div class="flex even">
+				<div class="flex center">
+					<a href="index.html">
+						<button id="cancel_button" class="interactive" type="button">cancel</button>
+					</a>
+				</div>
+				<div class="flex center">
+					<button id="save_button" class="interactive" type="button" onclick="save_changes()" disabled>save</button>
+				</div>
+			</div>
 		</main>
 	</body>
 </html>
