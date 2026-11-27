@@ -158,6 +158,19 @@ main {
 	padding: 20px 0px;
 }
 
+select {
+	background-color: #2A2D34;
+	color: #DB504A;
+	font-size: 2rem;
+	width: max-content;
+	border: #DB504A 3px solid;
+	border-radius: 6px;
+}
+
+option {
+	color: #DB504A;
+}
+
 
 
 .movie_card {
@@ -216,4 +229,15 @@ main {
 	color: #DB504A;
 	font-size: 1rem;
 	max-width: none;
+}
+
+#sort_direction_button img {
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+#delete_button {
+	width: 400px;
+	background-color: #DB504A;
+	color: #2A2D34;
 }

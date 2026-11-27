@@ -1,6 +1,11 @@
 // global init
 let current_movie = {
-	"image": null
+	"id": null,
+	"title": null,
+	"image": null,
+	"rating": null,
+	"duration": null,
+	"released": null
 };
 let is_cover_enabled = false;
 
@@ -25,7 +30,7 @@ function get_id(string) {
 
 	let invalid_characters = false;
 
-	for (letter of string.toLowerCase()) {
+	for (let letter of string.toLowerCase().trim()) {
 		if (letter.search(/[a-z0-9]|_/) == -1) {
 			invalid_characters = true;
 			continue;
@@ -40,6 +45,42 @@ function get_id(string) {
 	}
 
 	return filtered_string;
+}
+
+function display_movie_properties(movie) {
+	let poster_url_input = document.getElementById("poster_url_input");
+	let title_input = document.getElementById("title_input");
+	let rating_slider = document.getElementById("rating_slider");
+	let minutes_input = document.getElementById("duration_minutes_input");
+	let release_date_input = document.getElementById("release_date_input");
+
+	if (current_movie.image) {
+		poster_url_input.value = current_movie.image.url;
+		is_cover_enabled = !current_movie.image.cover;
+		toggle_image_cover();
+		set_movie_poster_url();
+	}
+
+	if (current_movie.title) {
+		title_input.value = current_movie.title;
+		set_movie_title();
+	}
+
+	if (current_movie.rating) {
+		rating_slider.value = current_movie.rating;
+		set_movie_rating();
+	}
+
+	if (current_movie.duration) {
+		minutes_input.value = current_movie.duration;
+		set_movie_duration();
+	}
+
+	if (current_movie.released) {
+		release_date_input.value = current_movie.released;
+		set_movie_release_date();
+	}
+	
 }
 
 function set_movie_poster_url() {
@@ -75,7 +116,7 @@ function toggle_image_cover() {
 		cover_button.style.borderColor = "#2A2D34";
 	}
 
-	if (current_movie.image != null) {
+	if (current_movie.image) {
 		current_movie.image.cover = is_cover_enabled;
 	}
 
@@ -96,13 +137,13 @@ function set_movie_title() {
 	} 
 	
 	if (current_title_id != movie_id) {
-		let stored_movies = JSON.parse(localStorage.getItem("movies"));
+		let stored_movies = get_stored_movies();
 
 		if (!stored_movies) {
 			stored_movies = [{"id":"eee"}];
 		}
 
-		for (movie of stored_movies) {
+		for (let movie of stored_movies) {
 			if (movie.id == current_title_id) {
 				error_message = "THIS TITLE WILL OVERWRITE AN ALREADY EXISTING MOVIE!";
 				break;
@@ -118,6 +159,7 @@ function set_movie_title() {
 
 	error_display.textContent = error_message;
 	current_movie.title = title_input.value;
+	current_movie.id = get_id(title_input.value);
 }
 
 function set_movie_rating() {
@@ -143,16 +185,16 @@ function set_movie_duration() {
 		hours_input.value = Math.floor(hours_input.value);
 	}
 
-	current_movie.duration = hours_input.value * 60 + minutes_input.value;
+	current_movie.duration = parseInt(hours_input.value * 60) + parseInt(minutes_input.value);
 }
 
 function set_movie_release_date() {
 	let release_date_input = document.getElementById("release_date_input");
-	current_movie.release = release_date_input.value.replaceAll("-", "")
+	current_movie.released = release_date_input.value;
 }
 
 function save_changes() {
-	let stored_movies = JSON.parse(localStorage.getItem("movies"));
+	let stored_movies = get_stored_movies()
 	let movie_id = get_url_parameter("movie_id");
 
 	if (!stored_movies) {
@@ -162,11 +204,22 @@ function save_changes() {
 	if (!movie_id) {
 		stored_movies.push(current_movie);
 	} else {
-		let overwrote_movie = false
+		let overwrote_movie = false;
 
-		for (movie of stored_movies) {
+		if (current_movie.id != movie_id) {
+			for (let movie_index in stored_movies) {
+				movie = stored_movies[movie_index];
+				if (movie.id == current_movie.id) {
+					stored_movies.splice(movie_index, 1);
+					break;
+				}
+			}
+		}
+
+		for (let movie_index in stored_movies) {
+			let movie = stored_movies[movie_index];
 			if (movie.id == movie_id) {
-				movie = current_movie;
+				stored_movies[movie_index] = current_movie;
 				overwrote_movie = true;
 				break;
 			}
@@ -178,6 +231,37 @@ function save_changes() {
 	}
 
 	localStorage.setItem("movies", JSON.stringify(stored_movies));
+	window.location.replace("index.html");
+}
+
+function get_stored_movies() {
+	let stored_movies = localStorage.getItem("movies");
+
+	if (!stored_movies) {
+		return null;
+	}
+
+	return JSON.parse(stored_movies);
+}
+
+function delete_movie() {
+	let stored_movies = get_stored_movies();
+	let movie_id = get_url_parameter("movie_id");
+
+	if (!stored_movies) {
+		return;
+	}
+
+	for (let movie_index in stored_movies) {
+		let movie = stored_movies[movie_index];
+		if (movie.id == movie_id) {
+			stored_movies.splice(movie_index, 1);
+			break;
+		}
+	}
+
+	localStorage.setItem("movies", JSON.stringify(stored_movies));
+	window.location.replace("index.html");
 }
 
 
@@ -189,16 +273,17 @@ window.addEventListener("load", () => {
 		return;
 	}
 
-	let stored_movies = JSON.parse(localStorage.getItem("movies"));
+	let stored_movies = get_stored_movies()
 
 	if (!stored_movies) {
 		console.error(`couldn't find ${movie_id}`);
 		return;
 	}
 
-	for (movie of stored_movies) {
+	for (let movie of stored_movies) {
 		if (movie.id == movie_id) {
 			current_movie = movie;
+			display_movie_properties(current_movie);
 			return;
 		}
 	}

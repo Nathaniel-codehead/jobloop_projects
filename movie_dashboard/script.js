@@ -2,6 +2,7 @@
 
 // globals init
 let displayed_movies = [];
+let invert_sort = false;
 
 const example_movie = {
 	"id": "fish_2_the_fishening",
@@ -29,7 +30,7 @@ function display_movie(movie) {
 	new_movie.image = document.createElement("img");
 
 	// set properties
-	new_movie.card.setAttribute("href", `pages/movie_editor?${movie.id}`);
+	new_movie.card.setAttribute("href", `movie_editor.html?movie_id=${movie.id}`);
 	new_movie.card.classList.add("movie_card");
 	new_movie.title.textContent = movie.title;
 	new_movie.poster.classList.add("movie_poster_background");
@@ -71,10 +72,102 @@ function display_movies(movie_array) {
 	}
 }
 
+function set_sort_type() {
+	let sort_type_dropdown = document.getElementById("sort_type_dropdown");
+	let stored_movies = get_stored_movies()
+
+	clear_movies();
+
+	if (!stored_movies) {
+		return;
+	}
+
+	switch (sort_type_dropdown.value) {
+		case "alphabetical":
+			stored_movies.sort((movie_1, movie_2) => {
+				return (movie_1.title <= movie_2.title) ? -1 : 1;
+			});
+			break;
+		
+		case "release_date":
+			stored_movies.sort((movie_1, movie_2) => {
+				if (!movie_1.released) {
+					return 1;
+				}
+				
+				if (!movie_2.released) {
+					return -1;
+				}
+
+				return parseInt(movie_1.released.replaceAll("-", "")) - parseInt(movie_2.released.replaceAll("-", ""));
+			});
+			break;
+
+		case "rating":
+			stored_movies.sort((movie_1, movie_2) => {
+				if (!movie_1.rating) {
+					return 1;
+				}
+				
+				if (!movie_2.rating) {
+					return -1;
+				}
+
+				return movie_2.rating - movie_1.rating;
+			});
+			break;
+		
+		case "duration":
+			stored_movies.sort((movie_1, movie_2) => {
+				if (!movie_1.duration) {
+					return 1;
+				}
+				
+				if (!movie_2.duration) {
+					return -1;
+				}
+
+				return movie_2.duration - movie_1.duration;
+			});
+			break;
+	
+		default:
+			break;
+	}
+
+	if (invert_sort) {
+		stored_movies.sort((a, b) => {
+			return -1;
+		})
+	}
+
+	display_movies(stored_movies);
+}
+
+function toggle_sort_direction() {
+	let sort_direction_button = document.getElementById("sort_direction_button");
+	let sort_image = sort_direction_button.childNodes[1];
+
+	invert_sort = !invert_sort;
+	set_sort_type();
+
+	sort_image.style.transform = `rotate(${(invert_sort) ? 180 : 0}deg)`;
+}
+
+function get_stored_movies() {
+	let stored_movies = localStorage.getItem("movies");
+
+	if (!stored_movies) {
+		return null;
+	}
+
+	return JSON.parse(stored_movies);
+}
+
 
 
 // initial movie load
-let stored_movies = JSON.parse(localStorage.getItem("movies"));
+let stored_movies = get_stored_movies()
 
 if (stored_movies) {
 	display_movies(stored_movies);

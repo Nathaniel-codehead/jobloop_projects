@@ -16,9 +16,22 @@
 					<h1>Local Movie Database</h1>
 				</a>
 			</div>
+			<div class="flex center medium_gap">
+				<h3>Sort</h3>
+				<select id="sort_type_dropdown" onchange="set_sort_type()">
+					<option value="date_added">Date Added</option>
+					<option value="release_date">Release Date</option>
+					<option value="rating">Rating</option>
+					<option value="duration">Movie Length</option>
+					<option value="alphabetical">Alphabetical</option>
+				</select>
+				<button id="sort_direction_button" type="button" onclick="toggle_sort_direction()">
+					<img src="images/arrow_down.svg">
+				</button>
+			</div>
 		</header>
 		<main class="flex center">
-			<section id="movie_section" class="flex wrap small_gap">
+			<section id="movie_section" class="flex wrap medium_gap">
 				<a id="add_movie_button" class="movie_card" href="movie_editor.html">
 					<div class="movie_poster_background">
 						<img src="images/add.svg">
